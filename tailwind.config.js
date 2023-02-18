@@ -14,6 +14,7 @@ module.exports = {
         // 'hero-pattern': "url('/img/hero-pattern.svg')",
         // 'footer-texture': "url('/img/footer-texture.png')",
         "loyalty-points": "url('/src/assets/images/svg/loyalty-points.svg')",
+        'banner': "url('../../src/assets/banner.webp')",
       }
     },
     container: {
