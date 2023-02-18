@@ -9,6 +9,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    extend: {
+      backgroundImage: {
+        'banner': "url('../../src/assets/banner.webp')",
+      }
+    },
     container: {
       center: true,
       padding: {
