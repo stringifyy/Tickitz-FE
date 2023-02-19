@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'banner': "url('../../src/assets/banner.webp')",
+        'ticket': "url('../../src/assets/Ticket-result.png')",
       }
     },
     container: {
