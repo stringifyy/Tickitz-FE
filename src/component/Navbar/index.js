@@ -4,9 +4,12 @@ import {Inter} from '@next/font/google';
 import {useState, useEffect} from 'react';
 const inter = Inter({subsets: ['latin']});
 import AfterLogin from './afterLogin';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
 
+
+    const router = useRouter()
     const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
         if (localStorage.getItem('@userLogin')) {
@@ -25,6 +28,14 @@ export default function Navbar() {
     //     })
     //     .catch(err => console.log(err))
     // }, [])
+
+
+
+
+    // useEffect(() => {
+    //   onLogout()
+    // }, [])
+    
 
     return (
         <div>
@@ -91,17 +102,24 @@ export default function Navbar() {
                                         </li>
                                         {
                                             isLogin
-                                                ? (
-                                                    <div>
-                                                        <button className='btn btn-primary mr-4 text-white'>
+                                                ?(<AfterLogin
+                                                 />)
+                                                : 
+                                                (
+                                                    <div key="saha">
+                                                        <button
+                                                        onClick={()=>router.push("login")}
+                                                        className='btn btn-primary mr-4 text-white'>
                                                             Log In
                                                         </button>
-                                                        <button className='btn btn-primary mr-4 text-white'>
+                                                        <button 
+                                                        onClick={()=>router.push("signup")}
+                                                        className='btn btn-primary mr-4 text-white'>
                                                             Sign Up
                                                         </button>
                                                     </div>
+                                                
                                                 )
-                                                : (<AfterLogin/>)
                                         }
                                     </ul>
                                 </div>

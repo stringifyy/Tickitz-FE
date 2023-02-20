@@ -4,12 +4,14 @@ import Link from "next/link"
 import NowComming from "@/component/nowShowing"
 import UpComming from "@/component/upComing"
 import movie1 from "@/assets/images/png/movie1.png"
+import Navbar from "@/component/Navbar"
+import Footer from "@/component/Footer"
 
 
 export default function Home() {
   return (
     <>
-      {/* herobanner1 */}
+      <Navbar/>
       <div className="container">
         <div className=" max-h-screen mb-10">
           <div className="hero flex flex-col justify-between items-center lg:flex-row-reverse mt-12">
@@ -71,6 +73,7 @@ export default function Home() {
           </div>
         </label>
       </label>
+      <Footer/>
     </>
   )
 }

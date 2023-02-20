@@ -1,13 +1,26 @@
+
+
+
+"use client"
 import React from 'react';
+import { useRouter } from 'next/navigation';
+
 
 function AfterLogin() {
+
+      const onLogout  = () =>{
+        // event.prevenDefault()
+        console.log("onlougt");
+        localStorage.removeItem('@userLogin')
+        window.location.reload()
+    }
   return (
     <div>
       <li>
         <div className='dropdown dropdown-end'>
           <label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
             <div className='w-10 rounded-full'>
-              <img src='https://loremflickr.com/320/240' />
+              <img src='https://loremflickr.com/320/240' alt=''/>
             </div>
           </label>
           <ul
@@ -24,7 +37,10 @@ function AfterLogin() {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+             <button
+             key="1"
+             onClick={onLogout}
+              className='btn btn-ghost'>Logout</button> 
             </li>
           </ul>
         </div>

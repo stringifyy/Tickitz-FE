@@ -3,15 +3,16 @@ import Link from 'next/link'
 import profile from '@/assets/images/png/profile.png'
 import cardPoint from '@/assets/images/svg/loyalty-points.svg'
 import Image from 'next/image'
+import Navbar from '@/component/Navbar'
+import Footer from '@/component/Footer'
 
 
 export default function AccountInfo() {
   return (
     <>
+    <Navbar/>
       <div className="container mt-10">
         <div className="flex flex-col lg:flex-row">
-
-          {/* card photo */}
           <div className="flex flex-col">
             <div className="card w-full lg:w-80 bg-base-100 rounded-lg shadow-md">
               <div className="card-body">
@@ -146,7 +147,7 @@ export default function AccountInfo() {
           </div>
         </label>
       </label>
-
+      <Footer/>
     </>
   )
 }
