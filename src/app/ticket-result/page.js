@@ -5,9 +5,14 @@ import Footer from '@/component/Footer'
 import MobileTicket from '@/component/TicketMobile'
 
 function TicketResult() {
+    // Private route
+    const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+    if (!userId || userId == null || userId == undefined) {
+        redirect('/login')
+    }
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <div className='bg-[#5F2EEA] w-full'>
                 <div className='container'>
                     <div className='hidden md:flex md:flex-col px-32 pt-16 pb-24 w-full'>
@@ -86,36 +91,36 @@ function TicketResult() {
                                         <Image
                                             className='w-[60px]'
                                             alt=''
-                                            src={require("@/assets/barcode.png")}/>
+                                            src={require("@/assets/barcode.png")} />
                                         <Image
                                             className='w-[60px]'
                                             alt=''
-                                            src={require("@/assets/barcode.png")}/>
+                                            src={require("@/assets/barcode.png")} />
                                         <Image
                                             className='w-[60px]'
                                             alt=''
-                                            src={require("@/assets/barcode.png")}/>
+                                            src={require("@/assets/barcode.png")} />
                                         <Image
                                             className='w-[60px]'
                                             alt=''
-                                            src={require("@/assets/barcode.png")}/>
+                                            src={require("@/assets/barcode.png")} />
                                     </div>
                                 </div>
                             </div>
                             <div className='py-12 flex'>
                                 <button className="btn btn-outline text-[#4E4B66] mr-5">
-                                    <Image src={require("@/assets/download.png")} alt="" className="w-6 mr-3"/>
+                                    <Image src={require("@/assets/download.png")} alt="" className="w-6 mr-3" />
                                     Download</button>
                                 <button className="btn btn-outline text-[#4E4B66]">
-                                    <Image src={require("@/assets/printer.png")} alt="" className="w-6 mr-3"/>
+                                    <Image src={require("@/assets/printer.png")} alt="" className="w-6 mr-3" />
                                     Print</button>
                             </div>
                         </div>
                     </div>
-                    <MobileTicket/>
+                    <MobileTicket />
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

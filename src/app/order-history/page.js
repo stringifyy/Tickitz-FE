@@ -10,6 +10,11 @@ import AccountInfo from '../account-information/page'
 // import AccountInfo from ''
 
 export default function OrderHistory() {
+  // Private route
+  const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  if (!userId || userId == null || userId == undefined) {
+    redirect('/login')
+  }
   return (
     <>
       <div className="container mt-10">

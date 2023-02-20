@@ -6,6 +6,11 @@ import Footer from '@/component/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 const Payment = () => {
+  // Private route
+  const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  if (!userId || userId == null || userId == undefined) {
+    redirect('/login')
+  }
   return (
     <>
       <Navbar />

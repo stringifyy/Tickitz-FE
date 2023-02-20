@@ -1,12 +1,17 @@
 'use client'
 import Data from './data.json'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import SelecSeat from '@/component/SelectSeat'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
 
 function OrderPage() {
+    // Private route
+    const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+    if (!userId || userId == null || userId == undefined) {
+        redirect('/login')
+    }
 
     const [chek, setChek] = useState([])
     const handleOnChek = (e) => {
@@ -38,7 +43,7 @@ function OrderPage() {
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <div className='bg-[#F5F6F8]'>
                 <div className='container pb-16 md:pt-16'>
                     <div className='  hidden md:flex flex-col'>
@@ -79,7 +84,7 @@ function OrderPage() {
                                                             className="bg-[#D6D8E7] appearance-none checked:bg-blue-500 w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded"
                                                             value={item.site}
                                                             disabled={item.status ? true : false}
-                                                            onChange={(e) => handleOnChek(e.target.value)}/>
+                                                            onChange={(e) => handleOnChek(e.target.value)} />
                                                     ))
                                             }
                                         </div>
@@ -93,7 +98,7 @@ function OrderPage() {
                                                             type="checkbox"
                                                             className="bg-[#D6D8E7] appearance-none checked:bg-blue-500 w-[11%] md:h-7 h-5 md:w-[11%] md:mr-2 mr-1 mb-2 rounded"
                                                             value={item.site}
-                                                            onChange={(e) => handleOnChek(e.target.value)}/>
+                                                            onChange={(e) => handleOnChek(e.target.value)} />
                                                     ))
                                             }
                                         </div>
@@ -123,14 +128,14 @@ function OrderPage() {
                                 <div
                                     className='flex flex-wrap items-center w-[90%] h-6 justify-between mb-4 md:hidden'>
                                     <div className='flex w-1/2'>
-                                        <Image src={require("@/assets/Forward-Arrow.png")} className="w-6 mr-4" alt=""/>
+                                        <Image src={require("@/assets/Forward-Arrow.png")} className="w-6 mr-4" alt="" />
                                         <p className='font-semibold'>A - G</p>
                                     </div>
                                     <div className='flex w-1/2'>
                                         <Image
                                             src={require("@/assets/Forward-Arrow.png")}
                                             alt=""
-                                            className="w-6 mr-4 rotate-[-90deg]"/>
+                                            className="w-6 mr-4 rotate-[-90deg]" />
                                         <p className='font-semibold'>1 - 14</p>
                                     </div>
                                 </div>
@@ -160,7 +165,7 @@ function OrderPage() {
                             <div className='flex flex-col justify-between w-full '>
                                 <div className=" w-full bg-base-100 shadow-md rounded-xl py-3">
                                     <div className="w-full p-6 flex flex-col items-center">
-                                        <Image src={require("@/assets/CineOne.png")} className="w-32 mb-5" alt=''  />
+                                        <Image src={require("@/assets/CineOne.png")} className="w-32 mb-5" alt='' />
                                         <h2 className="card-title text-2xl">CineOne21 Cinema</h2>
                                         <div className=' w-full py-10 border-b-[2px]'>
                                             <div className='flex w-full justify-between py-4'>
@@ -205,11 +210,11 @@ function OrderPage() {
                                 </div>
                             </div>
                         </div>
-                        <SelecSeat/>
+                        <SelecSeat />
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }
