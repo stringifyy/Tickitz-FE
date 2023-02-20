@@ -8,10 +8,12 @@ import { useRouter } from 'next/navigation';
 
 function AfterLogin() {
 
+      const router = useRouter()
       const onLogout  = () =>{
         // event.prevenDefault()
         console.log("onlougt");
         localStorage.removeItem('@userLogin')
+        router.push("/")
         window.location.reload()
     }
   return (
@@ -25,16 +27,17 @@ function AfterLogin() {
           </label>
           <ul
             tabIndex={0}
-            className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
+            className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-40 absolute -bottom-[170px] items-center'
           >
             <li>
-              <a className='justify-between'>
-                Profile
-                <span className='badge'>New</span>
-              </a>
+              <button
+              key="1"
+              onClick={()=>router.push("account-information")}
+                className='btn btn-ghost'>Profile</button> 
             </li>
             <li>
-              <a>Settings</a>
+              <button
+                className='btn btn-ghost'>Setting</button> 
             </li>
             <li>
              <button

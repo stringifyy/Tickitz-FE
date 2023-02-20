@@ -4,10 +4,9 @@ import {Inter} from '@next/font/google';
 import {useState, useEffect} from 'react';
 const inter = Inter({subsets: ['latin']});
 import AfterLogin from './afterLogin';
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 
 export default function Navbar() {
-
 
     const router = useRouter()
     const [isLogin, setIsLogin] = useState(false);
@@ -20,22 +19,10 @@ export default function Navbar() {
     }, [])
 
     // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.user_id;
-    // useEffect(() => {
-    //     axios
-    //     .get(`http://localhost:5001/api/users/${userId}`)
-    //     .then(res => {
-    //         setData(res.data.data)
-    //     })
-    //     .catch(err => console.log(err))
-    // }, [])
-
-
-
-
-    // useEffect(() => {
-    //   onLogout()
-    // }, [])
-    
+    // useEffect(() => {     axios
+    // .get(`http://localhost:5001/api/users/${userId}`)     .then(res => {
+    // setData(res.data.data)     })     .catch(err => console.log(err)) }, [])
+    // useEffect(() => {   onLogout() }, [])
 
     return (
         <div>
@@ -102,24 +89,19 @@ export default function Navbar() {
                                         </li>
                                         {
                                             isLogin
-                                                ?(<AfterLogin
-                                                 />)
-                                                : 
-                                                (
-                                                    <div key="saha">
+                                                ? <AfterLogin/>
+                                                : <div key="saha">
                                                         <button
-                                                        onClick={()=>router.push("login")}
-                                                        className='btn btn-primary mr-4 text-white'>
+                                                            onClick={() => router.push("login")}
+                                                            className='btn btn-primary mr-4 text-white'>
                                                             Log In
                                                         </button>
-                                                        <button 
-                                                        onClick={()=>router.push("signup")}
-                                                        className='btn btn-primary mr-4 text-white'>
+                                                        <button
+                                                            onClick={() => router.push("signup")}
+                                                            className='btn btn-primary mr-4 text-white'>
                                                             Sign Up
                                                         </button>
                                                     </div>
-                                                
-                                                )
                                         }
                                     </ul>
                                 </div>

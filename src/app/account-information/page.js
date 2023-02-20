@@ -1,13 +1,99 @@
-import React from 'react'
+
+
+"use client"
+import React,{useState, useEffect} from 'react'
 import Link from 'next/link'
 import profile from '@/assets/images/png/profile.png'
 import cardPoint from '@/assets/images/svg/loyalty-points.svg'
 import Image from 'next/image'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
+import axios from 'axios'
 
 
 export default function AccountInfo() {
+
+
+  const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  const [dataUser, setDataUser] = useState([]);
+  // console.log("data usersdsd", dataUser);
+
+
+  useEffect(() => {
+        axios
+        .get(`http://localhost:5000/api/v1/auth/users/${userId}`)
+        .then(res => {
+            console.log(res);
+            setDataUser(res.data.data)
+        })
+        .catch(err => console.log(err))
+    }, [])
+
+
+    // const [formUser, setFormUser] = useState({
+    //   name:"",
+    //   email:"",
+    //   phone:"",
+    // })
+
+    const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
+    const [phone, setPhone] = useState('')
+    
+
+
+
+  const handleUpdate = (e) =>{
+
+      const body = new FormData();
+      body.append('name', name);
+      body.append('email', email);
+      body.append('phone', phone);
+      // body.append('img_profile', image);
+
+      e.preventDefault()
+      console.log("hai ini update");
+      // axios({
+      //   url: `http://localhost:5000/api/v1/auth/users/${userId}`,
+      //   method: "PATCH",
+      //   data: formUser,
+      //   headers: {
+      //     'content-type': 'multipart/form-data',
+      //   }
+      // })
+        axios.patch(`http://localhost:5000/api/v1/auth/users/${userId}`, body, {
+          method: 'PATCH',
+          headers: {
+            'Content-type': 'multipart/form-data',
+          }
+        })
+        .then((res) => {
+        console.log(res.data.message);
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+
+
+
+        // axios.put(`http://localhost:5000/api/v1/auth/users/${userId}`,
+        //     {
+        //       ...formUser
+        //     }, {
+        //       headers: {
+        //       'Access-Control-Allow-Headers':'*',
+        //       'content-type': 'multipart/form-data',
+        //       }
+        //     })
+        //   .then(function (response) {
+        //   console.log(response);
+        //   })
+        //   .catch(function (error) {
+        //       console.log(error);
+        //   })
+}
+
+
   return (
     <>
     <Navbar/>
@@ -24,8 +110,8 @@ export default function AccountInfo() {
                   <label htmlFor="my-modal-4">
                     <Image src={profile} alt="profile" htmlFor="" />
                   </label>
-                  <h2 className='font-bold'>Firman Subagja</h2>
-                  <p className='text-gray-500'>Moviegoers</p>
+                  <h2 className='font-bold'>{dataUser?.name}</h2>
+                  <p className='text-gray-500'>{dataUser?.phone}</p>
                 </div>
               </div>
             </div>
@@ -59,7 +145,7 @@ export default function AccountInfo() {
               </div>
 
               {/* form section*/}
-              <form action="" className='mt-10'>
+              <form action="" className='mt-10'  onSubmit={handleUpdate}>
                 <h2 className="card-title border-b-2 border-solid border-gray-200 py-5">Detail Information</h2>
 
                 {/* firstname input */}
@@ -68,7 +154,9 @@ export default function AccountInfo() {
                     <label className="label">
                       <span className="label-text">First Name</span>
                     </label>
-                    <input type="text" placeholder="Write your first name" className="input input-bordered w-full max-w-sm mr-5" />
+                    <input 
+                    onChange={(e)=>setName(e.target.value)}
+                    type="text" placeholder="Write your first name" className="input input-bordered w-full max-w-sm mr-5" />
                   </div>
 
                   {/* lastname input */}
@@ -85,7 +173,9 @@ export default function AccountInfo() {
                     <label className="label">
                       <span className="label-text">E-mail</span>
                     </label>
-                    <input type="text" placeholder="Write your E-mail" className="input input-bordered w-full max-w-sm mr-5" />
+                    <input
+                    onChange={(e)=>setEmail(e.target.value)}
+                     type="text" placeholder="Write your E-mail" className="input input-bordered w-full max-w-sm mr-5" />
                   </div>
 
                   {/* lastname input */}
@@ -93,7 +183,9 @@ export default function AccountInfo() {
                     <label className="label">
                       <span className="label-text">Phone Number</span>
                     </label>
-                    <input type="text" placeholder="Write your phone number" className="input input-bordered w-full max-w-sm" />
+                    <input 
+                    onChange={(e)=>setPhone(e.target.value)}
+                    type="text" placeholder="Write your phone number" className="input input-bordered w-full max-w-sm" />
                   </div>
                 </div>
                 {/* end */}
@@ -107,7 +199,12 @@ export default function AccountInfo() {
                     <label className="label">
                       <span className="label-text">New Password</span>
                     </label>
-                    <input type="password" placeholder="Write your password" className="input input-bordered w-full max-w-sm mr-5" />
+                    <input
+                    // onChange={(e)=>setFormUser({
+                    //   ...formUser,
+                    //   password:e.target.value
+                    // })} 
+                    type="password" placeholder="Write your password" className="input input-bordered w-full max-w-sm mr-5" />
                   </div>
 
                   {/* lastname input */}

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 function SignUp() {
 
     const [isData, setIsData] = useState(
-        {email: "", username: "", phone_number: "",password:""}
+        {email: "", name: "", phone: "",password:""}
     )
     console.log("isdata", isData);
     const router = useRouter()
@@ -19,9 +19,8 @@ function SignUp() {
 
     const handleSigup = (event) => {
         event.preventDefault()
-        console.log("haii");
         axios({
-            url: "http://localhost:5001/api/auth/regis-user",
+            url: "http://localhost:5000/api/v1/auth/register",
             method: "POST",
             data: isData,
         })
@@ -50,7 +49,7 @@ function SignUp() {
                     onChange={(e) => setIsData({
 
                         ...isData,
-                        username: e.target.value
+                        name: e.target.value
                     })
 }
                     type="text"
@@ -75,7 +74,7 @@ function SignUp() {
                 <input
                     onChange={(e) => setIsData({
                         ...isData,
-                        phone_number: e.target.value
+                        phone: e.target.value
                     })}
                     type="number"
                     placeholder="Type here"
