@@ -4,9 +4,12 @@ import {Inter} from '@next/font/google';
 import {useState, useEffect} from 'react';
 const inter = Inter({subsets: ['latin']});
 import AfterLogin from './afterLogin';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
 
+
+    const router = useRouter()
     const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
         if (localStorage.getItem('@userLogin')) {
@@ -93,10 +96,14 @@ export default function Navbar() {
                                             isLogin
                                                 ? (
                                                     <div>
-                                                        <button className='btn btn-primary mr-4 text-white'>
+                                                        <button
+                                                        onClick={()=>router.push("login")}
+                                                        className='btn btn-primary mr-4 text-white'>
                                                             Log In
                                                         </button>
-                                                        <button className='btn btn-primary mr-4 text-white'>
+                                                        <button 
+                                                        onClick={()=>console.log("hnjdhfjdhf")}
+                                                        className='btn btn-primary mr-4 text-white'>
                                                             Sign Up
                                                         </button>
                                                     </div>
