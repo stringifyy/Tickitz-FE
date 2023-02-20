@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import Navbar from '@/component/Navbar';
 import Footer from '@/component/Footer';
+import CardMovieDetails from '@/component/CardMovieDetails';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -86,14 +87,14 @@ const MovieDetails = () => {
                 <div className='flex-none bg-gray-300 rounded-lg'>
                   <ul className='menu menu-horizontal px-1'>
                     <li tabIndex={0}>
-                      <Image
-                        src='calendar.svg'
-                        alt='calendar'
-                        className=''
-                        width={20}
-                        height={20}
-                      />
                       <a>
+                        <Image
+                          src='calendar.svg'
+                          alt='calendar'
+                          className=''
+                          width={20}
+                          height={20}
+                        />
                         21/07/20
                         <svg
                           className='fill-current'
@@ -174,16 +175,21 @@ const MovieDetails = () => {
               </div>
               {/* end location */}
             </div>
-
-            <div className=''>
-              <p>card</p>
-              <p>card</p>
-              <p>card</p>
-              <p>card</p>
-              <p>card</p>
-              <p>card</p>
+            <div class='flex flex-col mt-4'>
+              <div class='flex flex-row'>
+                <CardMovieDetails />
+                <CardMovieDetails />
+                <CardMovieDetails />
+              </div>
+              <div class='flex flex-row'>
+                <CardMovieDetails />
+                <CardMovieDetails />
+                <CardMovieDetails />
+              </div>
             </div>
-            <p className='text-center p-2'>view more</p>
+            <p className='text-primary text-center text-xl font-bold p-2'>
+              view more
+            </p>
           </div>
         </div>
       </div>
