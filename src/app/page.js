@@ -1,3 +1,5 @@
+"use client";
+import React from "react";
 import herobanner1 from "@/assets/images/png/herobanner1-asset.png"
 import Image from "next/image"
 import Link from "next/link"
@@ -6,12 +8,30 @@ import UpComming from "@/component/upComing"
 import movie1 from "@/assets/images/png/movie1.png"
 import Navbar from "@/component/Navbar"
 import Footer from "@/component/Footer"
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
 export default function Home() {
+  const [dataMovies, setDataMovies] = useState([])
+  // const [keyword, setKeyword] = useState('');
+
+  useEffect(() => {
+    loadUserData()
+  }, [])
+
+  const loadUserData = async () => {
+    return axios.get(`http://localhost:5000/api/v1/movies/`)
+      .then(res => setDataMovies(res.data.data))
+      .catch((err) => console.log(err))
+  }
+
   return (
     <>
-      <Navbar/>
+      {/* navbar */}
+      <Navbar />
+
+      {/* herobanner1 */}
       <div className="container">
         <div className=" max-h-screen mb-10">
           <div className="hero flex flex-col justify-between items-center lg:flex-row-reverse mt-12">
@@ -29,19 +49,106 @@ export default function Home() {
       </div>
 
       {/* herobanner2 */}
-      <NowComming />
+      {/* <NowComming /> */}
+
+      <div className="bg-base-200">
+        <div className="container">
+          <div className="pt-10 text-purple-600 flex justify-between">
+            <h1 className="text-2xl font-bold border-b-2 solid border-purple-600">Now Showing</h1>
+            <Link href="" className="font-semibold">View All</Link>
+          </div>
+
+          <div className="carousel mt-4">
+            <div className="carousel-item py-5">
+              <button className="btn btn-primary">January</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">Febuary</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">March</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">April</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">May</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">June</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">July</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">August</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">September</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">October</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">November</button>
+            </div>
+            <div className="carousel-item py-5 ml-3">
+              <button className="btn btn-primary">Desember</button>
+            </div>
+          </div>
+
+
+          <div className="flex mt-10">
+            <div className="carousel rounded-box w-screen pb-38">
+              {dataMovies.map((item) => {
+                const img = `http://localhost:5000/uploads/images/${item.movies_image}`
+                return (
+                  <>
+                    <Link href={`/movie-details/${item.id}`} className="mr-10 carousel-item mb-10 rounded-none">
+                      <div className="border-2 border-solid border-gray-300 rounded-2xl p-5 flex flex-col items-center">
+                        <figure>
+                          <label htmlFor="my-modal-4">
+                            <Image src={img} alt="Movies" width={160} height={160} className="rounded-xl w-38" />
+                          </label>
+                        </figure>
+                      </div>
+                    </Link>
+                    {/* Modal start */}
+                    {/* <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+                    <label htmlFor="my-modal-4" className="modal">
+                      <label className="modal-box relative" htmlFor="">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto">
+                          <figure>
+                            <Image src={img} alt="Movies" width={160} height={160} className="rounded-xl w-48" />
+                          </figure>
+                          <div>
+                            <h1 className="text-2xl font-bold">{item.movies_name}</h1>
+                            <p className="my-5">{item.movies_synopsis}</p>
+                            <Link href={`/movie-details/${item.id}`} className="btn btn-primary btn-block btn-sm cursor-pointer">Details</Link>
+                          </div>
+                        </div>
+                      </label>
+                    </label> */}
+                    {/* Modal end */}
+                  </>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
 
 
       {/* Herobanner3 */}
       <UpComming />
 
+      {/* subscribe card */}
       <div className="container">
         <div className="card w-full bg-white rounded-lg shadow-xl my-40">
           <div className="card-body items-center text-center">
             <h2 className="font-normal text-xl mt-10">Be the vanguard of the<br />
               <p className="text-4xl text-purple-600 font-bold">Moviegoers</p>
             </h2>
-            {/* <p>We are using cookies for no reason.</p> */}
             <div className="mt-10 mb-10">
               <form className="flex w-full justify-center">
                 <input type="text" placeholder="Type your email" className="input input-bordered w-full max-w-xl" />
@@ -56,8 +163,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* The button to open modal */}
-      {/* Put this part before </body> tag */}
+      {/* Modal */}
       <input type="checkbox" id="my-modal-4" className="modal-toggle" />
       <label htmlFor="my-modal-4" className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
@@ -73,7 +179,7 @@ export default function Home() {
           </div>
         </label>
       </label>
-      <Footer/>
+      <Footer />
     </>
   )
 }
