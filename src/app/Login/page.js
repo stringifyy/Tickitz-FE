@@ -1,13 +1,41 @@
 
-import React from 'react'
+
+'use client'
+import React,{useState} from 'react'
 import Banner from '@/component/AuthBanner'
 import FormAuth from '@/component/AuthForm'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+
 
 function Login() {
+
+    const router = useRouter()
+    const [formLogin, setFormLogin] = useState({email:"", password:""})
+    console.log("formlogin", formLogin);
+    const handleLogin=(event)=>{
+        event.preventDefault()
+        axios({
+            url: "http://localhost:5001/api/auth/login-user",
+            method: "POST",
+            data: formLogin,
+          })
+            .then((res) => {
+              console.log(res.data.data);
+              localStorage.setItem("@userLogin", JSON.stringify(res.data.result));
+              alert(res.data.message);
+              router.push("/");
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
+    }
+
     return (
         <div className='w-full flex'>
             <Banner/>
             <FormAuth
+            handleSubmit={handleLogin}
             title="Login"
             formClass="md:w-[40%] w-full pb-24 pt-12 md:py-40"
             desc={
@@ -18,7 +46,11 @@ function Login() {
                     <label className="label">
                         Email
                     </label>
-                    <input
+                    <input  
+                        onChange={(e)=> setFormLogin({
+                            ...formLogin,
+                            email: e.target.value
+                        })}
                         type="text"
                         placeholder="Type here"
                         className="input input-bordered w-full"/>
@@ -30,6 +62,10 @@ function Login() {
                         Password
                     </label>
                     <input
+                        onChange={(e)=> setFormLogin({
+                            ...formLogin,
+                            password: e.target.value
+                        })}
                         type="password"
                         placeholder="Type here"
                         className="input input-bordered w-full"/>

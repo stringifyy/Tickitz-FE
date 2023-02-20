@@ -1,9 +1,28 @@
-import React from 'react'
-import Image from 'next/image'
-import movie1 from "@/assets/images/png/movie1.png"
-import Link from 'next/link'
+"use client";
+import React from 'react';
+import Image from 'next/image';
+import movie1 from "@/assets/images/png/movie1.png";
+import Link from 'next/link';
+import axios from 'axios';
 
 export default function NowComming() {
+  // declaration
+  const [dataMovies, setDataMovies] = useState([])
+  // const [keyword, setKeyword] = useState('');
+
+
+
+  const loadUserData = async () => {
+    return axios
+      .get(`http://localhost:5000/api/v1/movies`)
+      .then(res => console.log(res.data.data))
+      .catch((err) => console.log(err))
+  }
+
+  useEffect(() => {
+    loadUserData()
+  }, [])
+
   return (
     <>
       <div className="bg-base-200">

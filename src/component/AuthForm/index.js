@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-function FormAuth({email, password, name, phone, desc, forgotPass,btnSubmit, optionAuth, formClass, title}) {
+function FormAuth({email, password, name, phone, desc, forgotPass,btnSubmit, optionAuth, formClass, title, handleSubmit}) {
   return (
     <>
         <div className={formClass}>
@@ -11,7 +11,7 @@ function FormAuth({email, password, name, phone, desc, forgotPass,btnSubmit, opt
                     <p className='md:text-5xl text-[26px] font-semibold my-10 md:m-0 md:mb-5'>{title}</p>
                     <p className='hidden md:flex text-lg text-[#AAAAAA]'>{desc}</p>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                     {name}
                     {email}
                     {phone}
