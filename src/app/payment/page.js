@@ -13,7 +13,11 @@ const Payment = () => {
   }
   return (
     <>
+
+      {/* navbar */}
       <Navbar />
+
+      {/* card payment info */}
       <div className='bg-[#E5E5E5]'>
         <div className='container'>
           <div className='flex flex-row justify-evenly'>
@@ -55,12 +59,15 @@ const Payment = () => {
                 </div>
               </div>
               {/* end payment info */}
+
               {/* start choose a payment method */}
               <div className='mt-4'>
                 <p className='font-bold text-2xl'>Choose a Payment Method</p>
               </div>
               <div className='card w-[40vw] bg-base-100 shadow-xl'>
                 <div className='card-body'>
+
+                  {/* button action */}
                   <div class='grid grid-rows-2 grid-flow-col gap-4'>
                     <button className='btn btn-outline'>
                       <Image
@@ -135,6 +142,7 @@ const Payment = () => {
                       />
                     </button>
                   </div>
+                  {/* end */}
                   <div className=''>
                     <p className='text-center'>or</p>
                   </div>
@@ -202,6 +210,7 @@ const Payment = () => {
                 </div>
               </div>
               {/* end personal info */}
+
               {/* start right bottom button */}
               <div className='flex flex-col p-2 mt-4'>
                 <button className='btn btn-primary'>Pay your order</button>
@@ -210,11 +219,15 @@ const Payment = () => {
                 </button>
               </div>
               {/* end right bottom button */}
+
             </div>
+
             {/* end right content */}
           </div>
         </div>
       </div>
+
+      {/* footer */}
       <Footer />
     </>
   );

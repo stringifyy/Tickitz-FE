@@ -44,6 +44,8 @@ function OrderPage() {
     return (
         <div>
             <Navbar />
+
+            {/* movie selected */}
             <div className='bg-[#F5F6F8]'>
                 <div className='container pb-16 md:pt-16'>
                     <div className='  hidden md:flex flex-col'>

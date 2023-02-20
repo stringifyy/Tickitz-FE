@@ -18,6 +18,8 @@ function TicketResult() {
                     <div className='hidden md:flex md:flex-col px-32 pt-16 pb-24 w-full'>
                         <div className=' bg-white w-full px-16 flex flex-col items-center rounded-lg'>
                             <p className='py-14 text-2xl font-semibold'>Proof of Payment</p>
+
+                            {/* ticket-result section */}
                             <div
                                 className='bg-ticket bg-cover w-[90%] h-[362px] border-2 rounded-2xl flex  py-5'>
                                 <div className='pt-24 w-[68.5%] pl-14 pr-20'>
@@ -107,6 +109,8 @@ function TicketResult() {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* button action */}
                             <div className='py-12 flex'>
                                 <button className="btn btn-outline text-[#4E4B66] mr-5">
                                     <Image src={require("@/assets/download.png")} alt="" className="w-6 mr-3" />
