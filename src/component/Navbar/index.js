@@ -1,12 +1,30 @@
 'use client';
 import Image from 'next/image';
 import {Inter} from '@next/font/google';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 const inter = Inter({subsets: ['latin']});
 import AfterLogin from './afterLogin';
 
 export default function Navbar() {
-    const [isLogin, setIsLogin] = useState(true);
+
+    const [isLogin, setIsLogin] = useState(false);
+    useEffect(() => {
+        if (localStorage.getItem('@userLogin')) {
+            setIsLogin(true)
+        } else {
+            setIsLogin(false)
+        }
+    }, [])
+
+    // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.user_id;
+    // useEffect(() => {
+    //     axios
+    //     .get(`http://localhost:5001/api/users/${userId}`)
+    //     .then(res => {
+    //         setData(res.data.data)
+    //     })
+    //     .catch(err => console.log(err))
+    // }, [])
 
     return (
         <div>
@@ -73,8 +91,7 @@ export default function Navbar() {
                                         </li>
                                         {
                                             isLogin
-                                                ? (<AfterLogin/>)
-                                                : (
+                                                ? (
                                                     <div>
                                                         <button className='btn btn-primary mr-4 text-white'>
                                                             Log In
@@ -84,18 +101,19 @@ export default function Navbar() {
                                                         </button>
                                                     </div>
                                                 )
+                                                : (<AfterLogin/>)
                                         }
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div className='md:hidden flex items-center'>
-                          <Image
-                              src={require("@/assets/menu-mobile.png")}
-                              alt='tickitz-logo'
-                              className=''
-                              width={40}
-                              height={40}/>
+                            <Image
+                                src={require("@/assets/menu-mobile.png")}
+                                alt='tickitz-logo'
+                                className=''
+                                width={40}
+                                height={40}/>
                         </div>
                     </div>
                 </div>

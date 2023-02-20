@@ -2,7 +2,7 @@
     "data":  [
         {
             "site":"A1",
-            "status":false
+            "status":false 
         },
         {
             "site":"A2"
