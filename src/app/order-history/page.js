@@ -7,6 +7,7 @@ import profile from '@/assets/images/png/profile.png'
 import cineone from '@/assets/images/svg/cineone21.svg'
 import ebuid from '@/assets/images/svg/ebuid.svg'
 import AccountInfo from '../account-information/page'
+import { redirect } from 'next/navigation'
 // import AccountInfo from ''
 
 export default function OrderHistory() {

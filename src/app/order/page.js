@@ -5,6 +5,7 @@ import Image from 'next/image'
 import SelecSeat from '@/component/SelectSeat'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
+import { redirect } from 'next/navigation'
 
 function OrderPage() {
     // Private route

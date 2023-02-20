@@ -104,7 +104,7 @@ export default function Home() {
                 const img = `http://localhost:5000/uploads/images/${item.movies_image}`
                 return (
                   <>
-                    <div className="mr-10 carousel-item mb-10 rounded-none">
+                    <Link href={`/movie-details/${item.id}`} className="mr-10 carousel-item mb-10 rounded-none">
                       <div className="border-2 border-solid border-gray-300 rounded-2xl p-5 flex flex-col items-center">
                         <figure>
                           <label htmlFor="my-modal-4">
@@ -112,7 +112,24 @@ export default function Home() {
                           </label>
                         </figure>
                       </div>
-                    </div>
+                    </Link>
+                    {/* Modal start */}
+                    {/* <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+                    <label htmlFor="my-modal-4" className="modal">
+                      <label className="modal-box relative" htmlFor="">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto">
+                          <figure>
+                            <Image src={img} alt="Movies" width={160} height={160} className="rounded-xl w-48" />
+                          </figure>
+                          <div>
+                            <h1 className="text-2xl font-bold">{item.movies_name}</h1>
+                            <p className="my-5">{item.movies_synopsis}</p>
+                            <Link href={`/movie-details/${item.id}`} className="btn btn-primary btn-block btn-sm cursor-pointer">Details</Link>
+                          </div>
+                        </div>
+                      </label>
+                    </label> */}
+                    {/* Modal end */}
                   </>
                 )
               })}

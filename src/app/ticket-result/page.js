@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
 import MobileTicket from '@/component/TicketMobile'
+import { redirect } from 'next/navigation'
 
 function TicketResult() {
     // Private route
