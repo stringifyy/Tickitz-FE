@@ -75,6 +75,5 @@ src
     
 ## Screenshot
 
-![Landing Page](https://i.ibb.co/RQRw1SD/Screenshot-from-2023-02-06-06-15-54.png) 
-
-![Auth Page](https://i.ibb.co/yhHG5ny/Screenshot-from-2023-02-06-06-16-23.png) 
+![Landing Page](https://user-images.githubusercontent.com/114414904/220416734-bcca7143-0238-4d8a-8c4b-13b2776dd873.png)
+![Auth Page](https://user-images.githubusercontent.com/114414904/220417219-f53950b2-05b3-4f07-96c6-ad8f9faf8356.png)
