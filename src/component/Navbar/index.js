@@ -7,13 +7,15 @@ import AfterLogin from './afterLogin';
 import { useRouter } from 'next/navigation';
 import tickitz from "@/assets/images/svg/tickitz-logo.svg"
 // import search from "@/assets/images/svg/search.svg"
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
+
 
     const router = useRouter()
     const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
-        if (localStorage.getItem('@userLogin')) {
+        if (Cookies.get('userId')) {
             setIsLogin(true)
         } else {
             setIsLogin(false)
