@@ -7,6 +7,7 @@ import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
 import { redirect } from 'next/navigation'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 
 function OrderPage() {
     // Private route
@@ -16,16 +17,26 @@ function OrderPage() {
     //     redirect('/login')
     // }
 
+    const url = process.env.NEXT_PUBLIC_API_URL
+
+    const [dataLeft, setDataLeft] = useState([])
+    const [dataRight, setDataRight] = useState([])
     const [chek, setChek] = useState([])
-    const handleOnChek = (e) => {
-        console.log('ceheck', chek)
+    const [dataId, setDataId] = useState([])
+    console.log(dataId);
+
+    const handleOnChek = (e, id, seatStatus) => {
+
         if (chek.length != 0) {
             for (let i = 0; i < chek.length + 1; i++) {
                 if (chek[i] == e) {
                     console.log('delete', e)
                     delete chek[i];
+                    // delete setDataId[i]
                     let data = chek.filter((item) => item != undefined)
+                    // let dataSeatId = dataId.filter((item) => item != undefined)
                     setChek(data);
+                    // setDataId(dataSeatId)
                     i = chek.length + 1;
                 } else {
                     console.log('add', e)
@@ -33,16 +44,70 @@ function OrderPage() {
                         ...chek,
                         e
                     ])
+                    // setDataId([
+                    //     ...dataId,
+                    //     id
+                    // ])
                 }
             }
         } else {
             setChek([e])
+            // setDataId([id])
+        }
+        if (dataId.length != 0) {
+            for (let i = 0; i < dataId.length + 1; i++) {
+                if (dataId[i] == id) {
+                    console.log('delete', id)
+                    delete dataId[i]
+                    let dataSeatId = dataId.filter((item) => item != undefined)
+                    setDataId(dataSeatId)
+                    i = dataId.length + 1;
+                } else {
+                    console.log('add', id)
+                    setDataId([
+                        ...dataId,
+                        id
+                    ])
+                }
+            }
+        } else {
+            setDataId([id])
+        }
+    }
+
+    const [status, setStatus] = useState({ status: 'true' })
+    const handleSeats = () => {
+        for (let i = 0; i < dataId.length; i++) {
+            axios.patch(`${url}/api/v1/seats_left/${dataId[i]}`, status, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
     }
 
     useEffect(() => {
-        console.log('data')
-    }, [chek])
+        loadSeatsLeft()
+        loadSeatsRight()
+    }, [])
+
+    const loadSeatsLeft = async () => {
+        return await axios.get(`http://localhost:5000/api/v1/seats_left`)
+            .then(res => setDataLeft(res.data.data))
+            .catch((err) => console.log(err))
+    }
+    const loadSeatsRight = async () => {
+        return await axios.get(`http://localhost:5000/api/v1/seats_right`)
+            .then(res => setDataRight(res.data.data))
+            .catch((err) => console.log(err))
+    }
 
     return (
         <div>
@@ -62,7 +127,7 @@ function OrderPage() {
                     </div>
                     <div className='w-full flex-col md:flex md:flex-row md:justify-between'>
                         <div className='md:w-[69%] w:full'>
-                            <p className='text-xl font-semibold mb-5 pt-12'>Choose Your Seat</p>
+                            <p className='text-xl font-semibold mb-5 pt-12'>{dataId}</p>
                             <div
                                 className='bg-white shadow-md w-full px-4 md:px-32 flex flex-col items-center py-10 rounded-xl'>
                                 <p className='w-full text-center mb-10 text-[#4E4B66]'>Screen</p>
@@ -80,30 +145,27 @@ function OrderPage() {
                                     <div className='flex md:w-[95%] w-full justify-between'>
                                         <div className='flex flex-wrap justify-center md:w-[45%] w-[47%]'>
                                             {
-                                                Data
-                                                    .data
+                                                dataLeft
                                                     .map((item, i) => (
                                                         <input
                                                             key={i}
                                                             type="checkbox"
-                                                            className="bg-[#D6D8E7] appearance-none checked:bg-blue-500 w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded"
+                                                            className={item.status == true ? `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-red-900` : `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-[#D6D8E7]`}
                                                             value={item.site}
-                                                            disabled={item.status ? true : false}
-                                                            onChange={(e) => handleOnChek(e.target.value)} />
+                                                            onChange={(e) => handleOnChek(e.target.value, item.id, item.status)} />
                                                     ))
                                             }
                                         </div>
                                         <div className='flex justify-center flex-wrap md:w-[45%] w-[47%]'>
                                             {
-                                                Data
-                                                    .data2
+                                                dataRight
                                                     .map((item, i) => (
                                                         <input
                                                             key={i}
                                                             type="checkbox"
-                                                            className="bg-[#D6D8E7] appearance-none checked:bg-blue-500 w-[11%] md:h-7 h-5 md:w-[11%] md:mr-2 mr-1 mb-2 rounded"
+                                                            className={item.status == true ? `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-red-900` : `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-[#D6D8E7]`}
                                                             value={item.site}
-                                                            onChange={(e) => handleOnChek(e.target.value)} />
+                                                            onChange={(e) => handleOnChek(e.target.value, item.id)} />
                                                     ))
                                             }
                                         </div>
@@ -159,7 +221,7 @@ function OrderPage() {
                                         <p>Love nest</p>
                                     </div>
                                     <div className='flex w-1/2 md:w-1/4'>
-                                        <div className='w-6 h-6 bg-[#6E7191] rounded mr-4'></div>
+                                        <div className='w-6 h-6 bg-red-900 rounded mr-4'></div>
                                         <p>Sold</p>
                                     </div>
                                 </div>
@@ -201,7 +263,7 @@ function OrderPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <button className="btn btn-primary w-full mt-6 absolute bottom-0 h-12">Checkout now</button>
+                                <button className="btn btn-primary w-full mt-6 absolute bottom-0 h-12" onClick={(() => handleSeats())}>Checkout now</button>
                             </div>
                         </div>
                         <div className='md:hidden rounded-lg p-4 bg-white mt-8 shadow-md'>
