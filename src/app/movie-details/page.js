@@ -13,8 +13,8 @@ const MovieDetails = () => {
       {/* start first content */}
       <div className='container overflow-x-hidden'>
         <div className='flex flex-col'>
-          <div className='flex flex-row border'>
-            <div className='border rounded-md p-4 m-8'>
+          <div className='flex flex-row'>
+            <div className='rounded-md p-4 m-8'>
               <Image
                 src='spiderman-poster.svg'
                 alt='spiderman-poster'
@@ -175,13 +175,13 @@ const MovieDetails = () => {
               </div>
               {/* end location */}
             </div>
-            <div class='flex flex-col mt-4'>
-              <div class='flex flex-row'>
+            <div className='flex flex-col mt-4'>
+              <div className='flex flex-row'>
                 <CardMovieDetails />
                 <CardMovieDetails />
                 <CardMovieDetails />
               </div>
-              <div class='flex flex-row'>
+              <div className='flex flex-row'>
                 <CardMovieDetails />
                 <CardMovieDetails />
                 <CardMovieDetails />

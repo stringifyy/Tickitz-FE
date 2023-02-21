@@ -103,13 +103,13 @@ export default function AccountInfo() {
     if (imageStatus === null || imageStatus === undefined || imageStatus === 'null') {
       return (
         <>
-          {imagePreview ? <Image src={imagePreview} width={200} height={200} className='w-[200px] h-[200px]' alt='profile' /> : <Image src={profile} width={200} height={200} className='w-[200px] h-[200px]' alt='profile' />}
+          {imagePreview ? <Image src={imagePreview} width={200} height={200} className='w-[200px] h-[200px] rounded-full' alt='profile' /> : <Image src={profile} width={200} height={200} className='w-[200px] h-[200px] rounded-full' alt='profile' />}
         </>
       )
     } else {
       return (
         <>
-          {imagePreview ? <Image src={imagePreview} width={200} height={200} className='w-[200px] h-[200px]' alt='profile' /> : <Image src={imageCurrent} width={200} height={200} className='w-[200px] h-[200px]' alt='profile' />}
+          {imagePreview ? <Image src={imagePreview} width={200} height={200} className='w-[200px] h-[200px] rounded-full shadow-xl' alt='profile' /> : <Image src={imageCurrent} width={200} height={200} className='w-[200px] h-[200px] rounded-full shadow-xl' alt='profile' />}
         </>
       )
     }
@@ -263,7 +263,8 @@ export default function AccountInfo() {
           <div className='flex flex-col justify-center items-center'>
             <div className="avatar">
               <div className="w-56 rounded-full">
-                <Image src={profile} alt="profile" />
+                {isImg()}
+                {/* <Image src={profile} alt="profile" /> */}
               </div>
             </div>
           </div>

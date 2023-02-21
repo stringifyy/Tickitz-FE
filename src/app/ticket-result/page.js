@@ -1,12 +1,20 @@
-import React from 'react'
+"use client";
+import React, { useRef } from 'react'
 import Image from 'next/image'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
 import MobileTicket from '@/component/TicketMobile'
+import { useReactToPrint } from 'react-to-print';
 import { redirect } from 'next/navigation'
 import Cookies from 'js-cookie'
 
 function TicketResult() {
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: "emp-data",
+    });
+    // const handlePrint = u
     // Private route
     // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
     // const userId = Cookies.get('userId')
@@ -23,7 +31,7 @@ function TicketResult() {
                             <p className='py-14 text-2xl font-semibold'>Proof of Payment</p>
 
                             {/* ticket-result section */}
-                            <div
+                            <div ref={componentRef}
                                 className='bg-ticket bg-cover w-[90%] h-[362px] border-2 rounded-2xl flex  py-5'>
                                 <div className='pt-24 w-[68.5%] pl-14 pr-20'>
                                     <div className=''>
@@ -119,7 +127,7 @@ function TicketResult() {
                                     <Image src={require("@/assets/download.png")} alt="" className="w-6 mr-3" />
                                     Download</button>
                                 <button className="btn btn-outline text-[#4E4B66]">
-                                    <Image src={require("@/assets/printer.png")} alt="" className="w-6 mr-3" />
+                                    <Image src={require("@/assets/printer.png")} alt="" className="w-6 mr-3" onClick={handlePrint} />
                                     Print</button>
                             </div>
                         </div>
