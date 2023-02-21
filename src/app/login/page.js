@@ -3,11 +3,17 @@ import React, { useState } from 'react'
 import Banner from '@/component/AuthBanner'
 import FormAuth from '@/component/AuthForm'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie'
 
 function Login() {
+    // Private route
+    const userId = Cookies.get('userId')
+    if (userId || userId != null || userId != undefined) {
+        redirect('/')
+    }
 
     const router = useRouter()
     const [formLogin, setFormLogin] = useState({ email: "", password: "" })
@@ -18,8 +24,10 @@ function Login() {
             { url: "http://localhost:5000/api/v1/auth/login", method: "POST", data: formLogin }
         )
             .then((res) => {
-                console.log("dta login", res.data.data);
-                localStorage.setItem("@userLogin", JSON.stringify(res.data.data));
+                // console.log("dta login", res.data.data);
+                Cookies.set('userId', res.data.data.user.id)
+                Cookies.set('userRole', res.data.data.user.role)
+                // localStorage.setItem("@userLogin", JSON.stringify(res.data.data));
                 toast.success('Login success!', {
                     position: "bottom-right",
                     autoClose: 1500,

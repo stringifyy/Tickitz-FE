@@ -3,15 +3,17 @@ import { Inter } from '@next/font/google';
 import Navbar from '@/component/Navbar';
 import Footer from '@/component/Footer';
 import { redirect } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const Payment = () => {
   // Private route
-  const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-  if (!userId || userId == null || userId == undefined) {
-    redirect('/login')
-  }
+  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  // const userId = Cookies.get('userId')
+  // if (!userId || userId == null || userId == undefined) {
+  //   redirect('/login')
+  // }
   return (
     <>
 

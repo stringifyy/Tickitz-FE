@@ -6,13 +6,15 @@ import SelecSeat from '@/component/SelectSeat'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
 import { redirect } from 'next/navigation'
+import Cookies from 'js-cookie'
 
 function OrderPage() {
     // Private route
-    const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-    if (!userId || userId == null || userId == undefined) {
-        redirect('/login')
-    }
+    // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+    // const userId = Cookies.get('userId')
+    // if (!userId || userId == null || userId == undefined) {
+    //     redirect('/login')
+    // }
 
     const [chek, setChek] = useState([])
     const handleOnChek = (e) => {

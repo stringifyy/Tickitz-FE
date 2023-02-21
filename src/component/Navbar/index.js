@@ -5,13 +5,14 @@ import { useState, useEffect } from 'react';
 const inter = Inter({ subsets: ['latin'] });
 import AfterLogin from './afterLogin';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
 
     const router = useRouter()
     const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
-        if (localStorage.getItem('@userLogin')) {
+        if (Cookies.get('userId')) {
             setIsLogin(true)
         } else {
             setIsLogin(false)
@@ -34,9 +35,10 @@ export default function Navbar() {
                                 <Image
                                     src='tickitz-logo.svg'
                                     alt='tickitz-logo'
-                                    className=''
+                                    className='cursor-pointer'
                                     width={120}
-                                    height={31} />
+                                    height={31}
+                                    onClick={() => { router.push('/') }} />
                             </div>
                             <ul className='hidden  md:flex menu menu-horizontal px-1'>
                                 <li>
