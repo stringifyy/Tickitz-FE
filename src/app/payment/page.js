@@ -10,10 +10,10 @@ const inter = Inter({ subsets: ['latin'] });
 const Payment = () => {
   // Private route
   // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-  const userId = Cookies.get('userId')
-  if (!userId || userId == null || userId == undefined) {
-    redirect('/login')
-  }
+  // const userId = Cookies.get('userId')
+  // if (!userId || userId == null || userId == undefined) {
+  //   redirect('/login')
+  // }
   return (
     <>
 

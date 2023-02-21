@@ -14,10 +14,10 @@ import Cookies from 'js-cookie'
 export default function OrderHistory() {
   // Private route
   // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-  const userId = Cookies.get('userId')
-  if (!userId || userId == null || userId == undefined) {
-    redirect('/login')
-  }
+  // const userId = Cookies.get('userId')
+  // if (!userId || userId == null || userId == undefined) {
+  //   redirect('/login')
+  // }
   return (
     <>
       <div className="container mt-10">
