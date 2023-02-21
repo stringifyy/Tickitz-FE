@@ -1,21 +1,68 @@
+'use client';
+import React, { useState } from 'react';
+import axios from 'axios';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import Navbar from '@/component/Navbar';
 import Footer from '@/component/Footer';
 import CardAdmin from '@/component/CardAdmin';
-import Cookies from 'js-cookie';
-import { redirect } from 'next/navigation';
+// import Cookies from 'js-cookie';
+// import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const Admin = () => {
+  const url = 'http://localhost:5000/api/v1/movies';
+
+  const [movies_name, setMoviesName] = useState('');
+  const [movies_genre, setMoviesGenre] = useState('');
+  const [movies_release, setMoviesRelease] = useState('');
+  const [movies_directed, setMoviesDirected] = useState('');
+  const [movies_cast, setMoviesCast] = useState('');
+  const [movies_synopsis, setMoviesSynopsis] = useState('');
+  // const [movies_image, setMoviesImage] = useState('');
+  const [date, setDate] = useState('');
+  const [duration, setDuration] = useState('');
+
+  // console.log(movies_image);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const body = new FormData();
+    body.append('movies_name', movies_name);
+    body.append('movies_genre', movies_genre);
+    body.append('movies_release', movies_release);
+    body.append('movies_directed', movies_directed);
+    body.append('movies_cast', movies_cast);
+    body.append('movies_synopsis', movies_synopsis);
+    // body.append('movies_image', movies_image);
+    body.append('date', date);
+    body.append('duration', duration);
+
+    try {
+      await axios.post(`${url}`, body, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'multi/form-data',
+        },
+      });
+      alert('Movies Added!');
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
+  const onImageUpload = (e) => {
+    const file = e.target.files[0];
+    setMoviesImage(URL.createObjectURL(file));
+  };
   // Private route
-  const userId = Cookies.get('userId')
-  const userRole = Cookies.get('userRole')
+  // const userId = Cookies.get('userId');
+  // const userRole = Cookies.get('userRole');
   // console.log(userRole);
-  if (userRole == 'user') {
-    redirect('/')
-  }
+  // if (userRole == 'user') {
+  //   redirect('/');
+  // }
   return (
     <>
       <Navbar />
@@ -27,101 +74,154 @@ const Admin = () => {
               <div>
                 <p className='font-bold text-2xl'>Movie Description</p>
                 {/* start movie description */}
-                <div className='card w-[45vw] bg-base-100 shadow-xl'>
-                  <div className='card-body'>
-                    <div className='flex flex-row'>
-                      <div>
-                        <div className='border rounded-md p-2 m-2'>
-                          <Image
+                <form onSubmit={handleSubmit}>
+                  <div className='card w-[45vw] bg-base-100 shadow-xl'>
+                    <div className='card-body'>
+                      <div className='flex flex-row'>
+                        <div>
+                          <div className='border rounded-md p-2 m-2'>
+                            {/* <Image
                             src='spiderman-poster.svg'
                             alt='spiderman-poster'
                             className=''
                             width={300}
                             height={350}
-                          />
-                        </div>
-                      </div>
-                      <div className='flex flex-col'>
-                        <div>
-                          <label className='label'>
-                            <span className='label-text'>Movie Name</span>
-                          </label>
-                          <input
-                            type='text'
-                            placeholder='Spider-Man: Homecoming'
-                            className='input input-bordered w-full max-w-xs'
-                          />
-                        </div>
-                        <div>
-                          <label className='label'>
-                            <span className='label-text'>Category</span>
-                          </label>
-                          <input
-                            type='text'
-                            placeholder='Comedy'
-                            className='input input-bordered w-full max-w-xs'
-                          />
-                        </div>
-                        <div className='flex flex-row'>
-                          <div>
-                            <label className='label'>
-                              <span className='label-text'>Release date</span>
-                            </label>
+                          /> */}
                             <input
-                              type='date'
-                              placeholder='07/05/2020'
-                              className='input input-bordered w-full max-w-xs'
+                              type='file'
+                              className='file-input w-full max-w-xs'
+                              onChange={(e) => onImageUpload(e)}
                             />
                           </div>
+                        </div>
+                        <div className='flex flex-col'>
                           <div>
                             <label className='label'>
-                              <span className='label-text'>Duration</span>
+                              <span className='label-text'>Movie Name</span>
                             </label>
                             <input
                               type='text'
-                              placeholder='2 13'
+                              placeholder='Spider-Man: Homecoming'
                               className='input input-bordered w-full max-w-xs'
+                              name='movies_name'
+                              value={movies_name}
+                              onChange={(e) => setMoviesName(e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <label className='label'>
+                              <span className='label-text'>Genre</span>
+                            </label>
+                            <input
+                              type='text'
+                              placeholder='Comedy'
+                              className='input input-bordered w-full max-w-xs'
+                              name='movies_genre'
+                              value={movies_genre}
+                              onChange={(e) => setMoviesGenre(e.target.value)}
+                            />
+                          </div>
+                          <div className='flex flex-row'>
+                            <div>
+                              <label className='label'>
+                                <span className='label-text'>Release date</span>
+                              </label>
+                              <input
+                                type='date'
+                                placeholder='07/05/2020'
+                                className='input input-bordered w-full max-w-xs'
+                                name='date'
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                              />
+                            </div>
+                            <div>
+                              <label className='label'>
+                                <span className='label-text'>Duration</span>
+                              </label>
+                              <input
+                                type='text'
+                                placeholder='2 13'
+                                className='input input-bordered w-full max-w-xs'
+                                name='duration'
+                                value={duration}
+                                onChange={(e) => setDuration(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className='flex flex-row w-full'>
+                        <div className='flex flex-row'>
+                          <div>
+                            <label className='label'>
+                              <span className='label-text'>Director</span>
+                            </label>
+                            <input
+                              type='text'
+                              placeholder='Jon Watts'
+                              className='input input-bordered w-full max-w-xs'
+                              name='movies_directed'
+                              value={movies_directed}
+                              onChange={(e) =>
+                                setMoviesDirected(e.target.value)
+                              }
+                            />
+                          </div>
+                          <div className='ml-4'>
+                            <label className='label'>
+                              <span className='label-text'>Casts</span>
+                            </label>
+                            <input
+                              type='text'
+                              placeholder='Tom Holland, Michael Keaton, Robert Dow..'
+                              className='input input-bordered w-full max-w-xs'
+                              name='movies_cast'
+                              value={movies_cast}
+                              onChange={(e) => setMoviesCast(e.target.value)}
+                            />
+                          </div>
+                          <div className='ml-4'>
+                            <label className='label'>
+                              <span className='label-text'>Movies Release</span>
+                            </label>
+                            <input
+                              type='text'
+                              placeholder='Movies Release'
+                              className='input input-bordered w-full max-w-xs'
+                              name='movies_release'
+                              value={movies_release}
+                              onChange={(e) => setMoviesRelease(e.target.value)}
                             />
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className='flex flex-row w-full'>
-                      <div className='flex flex-row'>
-                        <div>
-                          <label className='label'>
-                            <span className='label-text'>Director</span>
-                          </label>
-                          <input
-                            type='text'
-                            placeholder='Jon Watts'
-                            className='input input-bordered w-full max-w-xs'
-                          />
-                        </div>
-                        <div className='ml-4'>
-                          <label className='label'>
-                            <span className='label-text'>Casts</span>
-                          </label>
-                          <input
-                            type='text'
-                            placeholder='Tom Holland, Michael Keaton, Robert Dow..'
-                            className='input input-bordered w-full max-w-xs'
-                          />
-                        </div>
+                      <div className=''>
+                        <label className='label'>
+                          <span className='label-text'>Synopsis</span>
+                        </label>
+                        <textarea
+                          className='textarea w-full textarea-bordered'
+                          placeholder="'Thrilled by his experience with the Avengers, Peter returns home, where he
+                        lives with his Aunt May, | '"
+                          name='movies_synopsis'
+                          value={movies_synopsis}
+                          onChange={(e) => setMoviesSynopsis(e.target.value)}
+                        ></textarea>
                       </div>
                     </div>
-                    <div className=''>
-                      <label className='label'>
-                        <span className='label-text'>Synopsis</span>
-                      </label>
-                      <textarea
-                        className='textarea w-full textarea-bordered'
-                        placeholder="'Thrilled by his experience with the Avengers, Peter returns home, where he
-                        lives with his Aunt May, | '"
-                      ></textarea>
-                    </div>
                   </div>
-                </div>
+                  {/* start button add movies  */}
+                  <div>
+                    <button
+                      className='btn btn-primary w-full mt-2'
+                      type='submit'
+                    >
+                      Add Movies
+                    </button>
+                  </div>
+                  {/* end button add movies  */}
+                </form>
               </div>
             </div>
 
@@ -327,6 +427,13 @@ const Admin = () => {
                   </div>
                 </div>
               </div>
+              {/* start button add movies  */}
+              {/* <div>
+                <button className='btn btn-primary w-full mt-2' type='submit'>
+                  Add Movies
+                </button>
+              </div> */}
+              {/* end button add movies  */}
             </div>
           </div>
         </div>
