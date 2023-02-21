@@ -11,8 +11,8 @@ import Cookies from 'js-cookie'
 function Login() {
     // Private route
     const userId = Cookies.get('userId')
-    if (userId || userId != null || userId != undefined) {
-        redirect('/')
+    if (userId) {
+        redirect('/home')
     }
 
     const router = useRouter()

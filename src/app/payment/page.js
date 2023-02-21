@@ -13,16 +13,14 @@ const inter = Inter({ subsets: ['latin'] });
 
 const Payment = () => {
   // Private route
-  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-  // const userId = Cookies.get('userId')
-  // if (!userId || userId == null || userId == undefined) {
-  //   redirect('/login')
-  // }
+  const userId = Cookies.get('userId')
+  if (!userId || userId == null || userId == undefined) {
+    redirect('/login')
+  }
 
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_API_URL
   // Get data from Cookies
-  const userId = Cookies.get('userId')
   const seats = Cookies.get('seats')
   const movies_date = Cookies.get('movies_date')
   const movies_time = Cookies.get('movies_time')

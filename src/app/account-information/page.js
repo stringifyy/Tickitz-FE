@@ -14,7 +14,6 @@ import Cookies from 'js-cookie'
 
 export default function AccountInfo() {
   // Private route
-  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
   const userId = Cookies.get('userId')
   if (!userId || userId == null || userId == undefined) {
     redirect('/login')

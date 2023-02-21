@@ -22,6 +22,13 @@ function AfterLogin() {
     // localStorage.removeItem('@userLogin')
     Cookies.remove('userId')
     Cookies.remove('userRole')
+    Cookies.remove('seats')
+    Cookies.remove('movies_time')
+    Cookies.remove('ticket_count')
+    Cookies.remove('cinema_name')
+    Cookies.remove('movies_name')
+    Cookies.remove('movies_date')
+    Cookies.remove('total_payment')
     router.push("/")
     window.location.reload()
   }

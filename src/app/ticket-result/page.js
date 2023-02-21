@@ -10,11 +10,10 @@ import { useReactToPrint } from 'react-to-print'
 
 function TicketResult() {
     // Private route
-    // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-    // const userId = Cookies.get('userId')
-    // if (!userId || userId == null || userId == undefined) {
-    //     redirect('/login')
-    // }
+    const userId = Cookies.get('userId')
+    if (!userId || userId == null || userId == undefined) {
+        redirect('/login')
+    }
 
     const seats = Cookies.get('seats')
     const movies_date = Cookies.get('movies_date')
