@@ -23,47 +23,40 @@ function OrderPage() {
     const [dataRight, setDataRight] = useState([])
     const [chek, setChek] = useState([])
     const [dataId, setDataId] = useState([])
-    console.log(dataId);
+    const [dataIdRight, setDataIdRight] = useState([])
+    // console.log("id right", dataIdRight);
 
+    //handlle left
     const handleOnChek = (e, id, seatStatus) => {
-
         if (chek.length != 0) {
             for (let i = 0; i < chek.length + 1; i++) {
                 if (chek[i] == e) {
-                    console.log('delete', e)
+                    // console.log('delete', e)
                     delete chek[i];
-                    // delete setDataId[i]
                     let data = chek.filter((item) => item != undefined)
-                    // let dataSeatId = dataId.filter((item) => item != undefined)
                     setChek(data);
-                    // setDataId(dataSeatId)
                     i = chek.length + 1;
                 } else {
-                    console.log('add', e)
+                    // console.log('add', e)
                     setChek([
                         ...chek,
                         e
                     ])
-                    // setDataId([
-                    //     ...dataId,
-                    //     id
-                    // ])
                 }
             }
         } else {
             setChek([e])
-            // setDataId([id])
         }
         if (dataId.length != 0) {
             for (let i = 0; i < dataId.length + 1; i++) {
                 if (dataId[i] == id) {
-                    console.log('delete', id)
+                    // console.log('delete', id)
                     delete dataId[i]
                     let dataSeatId = dataId.filter((item) => item != undefined)
                     setDataId(dataSeatId)
                     i = dataId.length + 1;
                 } else {
-                    console.log('add', id)
+                    // console.log('add', id)
                     setDataId([
                         ...dataId,
                         id
@@ -72,6 +65,47 @@ function OrderPage() {
             }
         } else {
             setDataId([id])
+        }
+    }
+
+    const handleOnChekRight = (e, id, seatStatus) => {
+        if (chek.length != 0) {
+            for (let i = 0; i < chek.length + 1; i++) {
+                if (chek[i] == e) {
+                    // console.log('delete', e)
+                    delete chek[i];
+                    let data = chek.filter((item) => item != undefined)
+                    setChek(data);
+                    i = chek.length + 1;
+                } else {
+                    // console.log('add', e)
+                    setChek([
+                        ...chek,
+                        e
+                    ])
+                }
+            }
+        } else {
+            setChek([e])
+        }
+        if (dataIdRight.length != 0) {
+            for (let i = 0; i < dataIdRight.length + 1; i++) {
+                if (dataIdRight[i] == id) {
+                    // console.log('delete', id)
+                    delete dataIdRight[i]
+                    let dataSeatId = dataIdRight.filter((item) => item != undefined)
+                    setDataIdRight(dataSeatId)
+                    i = dataIdRight.length + 1;
+                } else {
+                    // console.log('add', id)
+                    setDataIdRight([
+                        ...dataIdRight,
+                        id
+                    ])
+                }
+            }
+        } else {
+            setDataIdRight([id])
         }
     }
 
@@ -91,12 +125,26 @@ function OrderPage() {
                     console.log(err);
                 })
         }
+        for (let i = 0; i < dataIdRight.length; i++) {
+            axios.patch(`${url}/api/v1/seats_right/${dataIdRight[i]}`, status, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
     }
 
     useEffect(() => {
         loadSeatsLeft()
         loadSeatsRight()
-    }, [])
+    }, [dataIdRight, dataId])
 
     const loadSeatsLeft = async () => {
         return await axios.get(`http://localhost:5000/api/v1/seats_left`)
@@ -112,7 +160,6 @@ function OrderPage() {
     return (
         <div>
             <Navbar />
-
             {/* movie selected */}
             <div className='bg-[#F5F6F8]'>
                 <div className='container pb-16 md:pt-16'>
@@ -127,7 +174,8 @@ function OrderPage() {
                     </div>
                     <div className='w-full flex-col md:flex md:flex-row md:justify-between'>
                         <div className='md:w-[69%] w:full'>
-                            <p className='text-xl font-semibold mb-5 pt-12'>{dataId}</p>
+                            {/* <p className='text-xl font-semibold mb-5 pt-12'>{dataId}</p> */}
+                            <p className='text-xl font-semibold mb-5 pt-12'>{dataIdRight}</p>
                             <div
                                 className='bg-white shadow-md w-full px-4 md:px-32 flex flex-col items-center py-10 rounded-xl'>
                                 <p className='w-full text-center mb-10 text-[#4E4B66]'>Screen</p>
@@ -165,7 +213,7 @@ function OrderPage() {
                                                             type="checkbox"
                                                             className={item.status == true ? `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-red-900` : `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-[#D6D8E7]`}
                                                             value={item.site}
-                                                            onChange={(e) => handleOnChek(e.target.value, item.id)} />
+                                                            onChange={(e) => handleOnChekRight(e.target.value, item.id)} />
                                                     ))
                                             }
                                         </div>

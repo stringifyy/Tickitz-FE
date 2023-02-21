@@ -14,14 +14,28 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [dataMovies, setDataMovies] = useState([])
+  const [filter, setFilter] = useState("")
   // const [keyword, setKeyword] = useState('');
+  const [showing, setShowing] = useState(false)
+  const [search, setSearch] = useState(false)
 
   useEffect(() => {
     loadUserData()
-  }, [])
+  }, [filter, search])
+
+
+  const url = (search) =>{
+    if (search != "") {
+      return `http://localhost:5000/api/v1/movies?search=${search.toLocaleLowerCase()}`
+    }
+    else {
+      return `http://localhost:5000/api/v1/movies/?movies_release=${filter.toLocaleLowerCase()}`
+    }
+
+  }
 
   const loadUserData = async () => {
-    return axios.get(`http://localhost:5000/api/v1/movies/`)
+    return axios.get(url(search))
       .then(res => setDataMovies(res.data.data))
       .catch((err) => console.log(err))
   }
@@ -53,47 +67,80 @@ export default function Home() {
 
       <div className="bg-base-200">
         <div className="container">
-          <div className="pt-10 text-purple-600 flex justify-between">
+          <div className="pt-10 text-purple-600 flex justify-between items-center">
             <h1 className="text-2xl font-bold border-b-2 solid border-purple-600">Now Showing</h1>
-            <Link href="" className="font-semibold">View All</Link>
+            <div className="flex w-[40%] items-center justify-end">
+                {showing ?
+                <input 
+                onChange={(e)=>setSearch(e.target.value)}
+                type="text" placeholder="Search Movies" className="input w-full max-w-xs" />
+                :null
+                 }
+                <Image src='search.svg' alt='search' className='mx-5 cursor-pointer' width={24} height={24} onClick={()=>setShowing(!showing)} />
+                <div href="" className="font-semibold cursor-pointer" onClick={()=>(setSearch(""),setFilter(""))}>View All</div> 
+            </div>
           </div>
 
           <div className="carousel mt-4">
             <div className="carousel-item py-5">
-              <button className="btn btn-primary">January</button>
+              <button 
+              onClick={()=>setFilter("january")}
+              className="btn btn-primary">January</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">Febuary</button>
+              <button 
+              onClick={()=>setFilter("Febuary")}
+              className="btn btn-primary">Febuary</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">March</button>
+              <button 
+              onClick={()=>setFilter("March")}
+              className="btn btn-primary">March</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">April</button>
+              <button 
+              onClick={()=>setFilter("April")}
+              className="btn btn-primary">April</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">May</button>
+              <button 
+              onClick={()=>setFilter("May")}
+              className="btn btn-primary">May</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">June</button>
+              <button 
+              onClick={()=>setFilter("June")}
+              className="btn btn-primary">June</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">July</button>
+              <button 
+              onClick={()=>setFilter("July")}
+              className="btn btn-primary">July</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">August</button>
+              <button 
+              onClick={()=>setFilter("August")}
+              className="btn btn-primary">August</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">September</button>
+              <button 
+              onClick={()=>setFilter("September")}
+              className="btn btn-primary">September</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">October</button>
+              <button 
+              onClick={()=>setFilter("October")}
+              className="btn btn-primary">October</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">November</button>
+              <button 
+              onClick={()=>setFilter("November")}
+              className="btn btn-primary">November</button>
             </div>
             <div className="carousel-item py-5 ml-3">
-              <button className="btn btn-primary">Desember</button>
+              <button 
+              onClick={()=>setFilter("Desember")}
+              className="btn btn-primary">Desember</button>
             </div>
           </div>
 

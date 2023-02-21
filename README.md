@@ -1,38 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Hire App-Frontend
 
-## Getting Started
+This is a frontend part for [api project](https://github.com/stringifyy/Tickitz-BE).
 
-First, run the development server:
+## Getting started
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+To get the React app running locally:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* Clone this repo with `git clone https://github.com/stringifyy/Tickitz-FE.git`
+* `cd frontend`
+* `npm install` to install all required dependencies
+* Create a `.env` file and reference the `dotenv.example` file
+* `npm start` to start the local server
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Folder Structure
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+src
+ ┣ app
+ ┃ ┣ account-information
+ ┃ ┃ ┗ page.js
+ ┃ ┣ admin
+ ┃ ┃ ┗ page.js
+ ┃ ┣ login
+ ┃ ┃ ┗ page.js
+ ┃ ┣ movie-details
+ ┃ ┃ ┣ [id]
+ ┃ ┃ ┃ ┗ page.js
+ ┃ ┃ ┗ page.js
+ ┃ ┣ order
+ ┃ ┃ ┣ data.json
+ ┃ ┃ ┗ page.js
+ ┃ ┣ order-history
+ ┃ ┃ ┗ page.js
+ ┃ ┣ payment
+ ┃ ┃ ┗ page.js
+ ┃ ┣ signup
+ ┃ ┃ ┗ page.js
+ ┃ ┣ ticket-result
+ ┃ ┃ ┗ page.js
+ ┃ ┣ globals.css
+ ┃ ┣ head.js
+ ┃ ┣ layout.js
+ ┃ ┣ page.js
+ ┃ ┗ page.module.css
+ ┣ assets
+ ┃ ┣ images
+ ┃ ┃ ┣ png
+ ┃ ┃ ┗ svg
+ ┣ component
+ ┃ ┣ AuthBanner
+ ┃ ┃ ┗ index.js
+ ┃ ┣ AuthForm
+ ┃ ┃ ┗ index.js
+ ┃ ┣ CardAdmin
+ ┃ ┃ ┗ index.js
+ ┃ ┣ CardMovieDetails
+ ┃ ┃ ┗ index.js
+ ┃ ┣ Footer
+ ┃ ┃ ┗ index.js
+ ┃ ┣ Navbar
+ ┃ ┃ ┣ afterLogin.js
+ ┃ ┃ ┗ index.js
+ ┃ ┣ nowShowing
+ ┃ ┃ ┗ index.js
+ ┃ ┣ SelectSeat
+ ┃ ┃ ┗ index.js
+ ┃ ┣ TicketMobile
+ ┃ ┃ ┗ index.js
+ ┃ ┗ upComing
+ ┃ ┃ ┗ index.js
+ ┗ pages
+ ┃ ┗ api
+ ┃ ┃ ┗ hello.js
+    
+## Screenshot
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![Landing Page](https://i.ibb.co/RQRw1SD/Screenshot-from-2023-02-06-06-15-54.png) 
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Auth Page](https://i.ibb.co/yhHG5ny/Screenshot-from-2023-02-06-06-16-23.png) 
