@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 const inter = Inter({ subsets: ['latin'] });
 import AfterLogin from './afterLogin';
 import { useRouter } from 'next/navigation';
+import tickitz from "@/assets/images/svg/tickitz-logo.svg"
+// import search from "@/assets/images/svg/search.svg"
 
 export default function Navbar() {
 
@@ -30,13 +32,14 @@ export default function Navbar() {
                 <div className='container'>
                     <div className='flex justify-between w-full'>
                         <div className='flex items-center'>
-                            <div className='md:mr-20'>
+                            <div className='md:mr-20 cursor-pointer'>
                                 <Image
-                                    src='tickitz-logo.svg'
+                                    src={tickitz}
                                     alt='tickitz-logo'
                                     className=''
                                     width={120}
-                                    height={31} />
+                                    height={31}
+                                    onClick={() => router.push('/')} />
                             </div>
                             <ul className='hidden  md:flex menu menu-horizontal px-1'>
                                 <li>

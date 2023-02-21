@@ -1,72 +1,93 @@
-import Image from 'next/image';
-import { Inter } from '@next/font/google';
-import Navbar from '@/component/Navbar';
-import Footer from '@/component/Footer';
-import CardMovieDetails from '@/component/CardMovieDetails';
+"use client";
+import Image from "next/image";
+import { Inter } from "@next/font/google";
+import Navbar from "@/component/Navbar";
+import Footer from "@/component/Footer";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import calendarLogo from '@/assets/images/svg/calendar.svg'
+import locationLogo from '@/assets/images/svg/location.svg'
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 const MovieDetails = () => {
+  const path = usePathname();
+  const id = path.split("/")[2];
+
+  const [moviesData, setMoviesData] = useState([]);
+  const [cinemaData, setCinemaData] = useState([]);
+
+  useEffect(() => {
+    loadMoviesData();
+  }, []);
+
+  const loadMoviesData = async () => {
+    return axios
+      .get(`http://localhost:5000/api/v1/movies/${id}`)
+      .then((res) => {
+        setMoviesData(res.data.data);
+        setCinemaData(res.data.data.cinema);
+      })
+      .catch((err) => console.log(err));
+  };
+  // console.log(moviesData);
+  const img = `http://localhost:5000/uploads/images/${moviesData.movies_image}`;
+
   return (
     <>
       <Navbar />
       {/* start first content */}
-      <div className='container overflow-x-hidden'>
-        <div className='flex flex-col'>
-          <div className='flex flex-row border'>
-            <div className='border rounded-md p-4 m-8'>
+      <div className="container overflow-x-hidden">
+        <div className="flex flex-col">
+          <div className="flex flex-row">
+            <div className="border rounded-md p-4 m-8">
               <Image
-                src='spiderman-poster.svg'
-                alt='spiderman-poster'
-                className=''
+                src={img}
+                alt="spiderman-poster"
+                className=""
                 width={300}
                 height={350}
               />
             </div>
-            <div className='flex flex-col p-4'>
-              <div className='flex flex-col'>
-                <p className='text-3xl font-bold'>Spider-Man: Homecoming</p>
-                <p className='text-xl font-medium'>Adventure, Action, Sci-Fi</p>
+            <div className="flex flex-col p-4">
+              <div className="flex flex-col">
+                <p className="text-3xl font-bold">{moviesData.movies_name}</p>
+                <p className="text-xl font-medium">{moviesData.movies_genre}</p>
               </div>
 
-              <div className='flex flex-row mt-4 justify-beetwen'>
-                <div className='flex flex-col'>
+              <div className="flex flex-row mt-4 justify-beetwen">
+                <div className="flex flex-col">
                   <p>Release date</p>
-                  <p className='text-xl font-medium'>June 28, 2017</p>
+                  <p className="text-xl font-medium">
+                    {moviesData.movies_release}
+                  </p>
                 </div>
-                <div className='flex flex-col ml-16'>
+                <div className="flex flex-col ml-16">
                   <p>Directed by</p>
-                  <p className='text-xl font-medium'>Jon Watss</p>
-                </div>
-              </div>
-
-              <div className='flex flex-row mt-4 justify-beetwen'>
-                <div className='flex flex-col'>
-                  <p>Duration</p>
-                  <p className='text-xl font-medium'>2 hours 13 minutes </p>
-                </div>
-                <div className='flex flex-col ml-4'>
-                  <p>Casts</p>
-                  <p className='text-xl font-medium'>
-                    Tom Holland, Michael Keaton, Robert Downey Jr., ...
+                  <p className="text-xl font-medium">
+                    {moviesData.movies_directed}
                   </p>
                 </div>
               </div>
 
-              <div className='border-b-2  w-full'></div>
-              <div className='flex flex-col mt-2'>
-                <p className='text-2xl font-bold'>Synopsis</p>
-                <p>
-                  Thrilled by his experience with the Avengers, Peter returns
-                  home, where he lives with his Aunt May, under the watchful eye
-                  of his new mentor <br />
-                  Tony Stark, Peter tries to fall back into his normal daily
-                  routine - distracted by thoughts of proving himself to be more
-                  than just your <br />
-                  friendly neighborhood Spider-Man - but when the Vulture
-                  emerges as a new villain, everything that Peter holds most
-                  important will be threatened.
-                </p>
+              <div className="flex flex-row mt-4 justify-beetwen">
+                <div className="flex flex-col">
+                  <p>Duration</p>
+                  <p className="text-xl font-medium">{moviesData.duration}</p>
+                </div>
+                <div className="flex flex-col ml-4">
+                  <p>Casts</p>
+                  <p className="text-xl font-medium">
+                    {moviesData.movies_cast}
+                  </p>
+                </div>
+              </div>
+
+              <div className="border-b-2  w-full"></div>
+              <div className="flex flex-col mt-2">
+                <p className="text-2xl font-bold">Synopsis</p>
+                <p>{moviesData.movies_synopsis}</p>
               </div>
             </div>
           </div>
@@ -75,38 +96,38 @@ const MovieDetails = () => {
       {/* end first content */}
 
       {/* start second content */}
-      <div className=' bg-gray-100'>
-        <div className='container'>
-          <div className='flex flex-col border'>
-            <p className='text-center text-2xl font-bold'>
+      <div className=" bg-gray-100">
+        <div className="container">
+          <div className="flex flex-col">
+            <p className="text-center text-2xl font-bold">
               Showtimes and Tickets
             </p>
-            <div className='flex flex-row justify-center p-2'>
+            <div className="flex flex-row justify-center p-2">
               {/* date */}
-              <div className='flex flex-row justify-beetwen m-2'>
-                <div className='flex-none bg-gray-300 rounded-lg'>
-                  <ul className='menu menu-horizontal px-1'>
+              <div className="flex flex-row justify-beetwen m-2">
+                <div className="flex-none bg-gray-300 rounded-lg">
+                  <ul className="menu menu-horizontal px-1">
                     <li tabIndex={0}>
                       <a>
                         <Image
-                          src='calendar.svg'
-                          alt='calendar'
-                          className=''
+                          src={calendarLogo}
+                          alt="calendar"
+                          className=""
                           width={20}
                           height={20}
                         />
                         21/07/20
                         <svg
-                          className='fill-current'
-                          xmlns='http://www.w3.org/2000/svg'
-                          width='20'
-                          height='20'
-                          viewBox='0 0 24 24'
+                          className="fill-current"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
                         >
-                          <path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
+                          <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                         </svg>
                       </a>
-                      <ul className='p-2 bg-base-100'>
+                      <ul className="p-2 bg-base-100 z-40 w-full">
                         <li>
                           <a>22/07/20</a>
                         </li>
@@ -129,30 +150,30 @@ const MovieDetails = () => {
               </div>
               {/* end date */}
               {/* location */}
-              <div className='flex flex-row justify-beetwen m-2'>
-                <div className='flex-none bg-gray-300 rounded-lg'>
-                  <ul className='menu menu-horizontal px-1'>
+              <div className="flex flex-row justify-beetwen m-2">
+                <div className="flex-none bg-gray-300 rounded-lg">
+                  <ul className="menu menu-horizontal px-1">
                     <li tabIndex={0}>
                       <a>
                         <Image
-                          src='location.svg'
-                          alt='location'
-                          className=''
+                          src={locationLogo}
+                          alt="location"
+                          className=""
                           width={20}
                           height={20}
                         />
                         Purwokerto
                         <svg
-                          className='fill-current'
-                          xmlns='http://www.w3.org/2000/svg'
-                          width='20'
-                          height='20'
-                          viewBox='0 0 24 24'
+                          className="fill-current"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
                         >
-                          <path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
+                          <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                         </svg>
                       </a>
-                      <ul className='p-2 bg-base-100'>
+                      <ul className="p-2 bg-base-100 z-40 w-full">
                         <li>
                           <a>Padang</a>
                         </li>
@@ -175,19 +196,67 @@ const MovieDetails = () => {
               </div>
               {/* end location */}
             </div>
-            <div class='flex flex-col mt-4'>
-              <div class='flex flex-row'>
-                <CardMovieDetails />
-                <CardMovieDetails />
-                <CardMovieDetails />
-              </div>
-              <div class='flex flex-row'>
-                <CardMovieDetails />
-                <CardMovieDetails />
-                <CardMovieDetails />
+            <div class="flex flex-col mt-4">
+              <div class="flex flex-row flex-wrap">
+                {cinemaData.map((item) => {
+                  const imgCinema = `http://localhost:5000/uploads/images/${item.cinema_image}`;
+                  // console.log(item);
+                  return (
+                    <>
+                      <div className="p-4">
+                        <div className="card w-85 bg-base-100 shadow-xl">
+                          <div className="flex flex-row p-2">
+                            <figure>
+                              <Image
+                                src={imgCinema}
+                                alt="ebv.id"
+                                className="p-4"
+                                width={150}
+                                height={150}
+                              />
+                            </figure>
+                            <div className="flex flex-col p-2">
+                              <p className="text-2xl font-bold p-1">
+                                {item.cinema_name}
+                              </p>
+                              <p className="">{item.cinema_location}</p>
+                            </div>
+                          </div>
+                          <div className="border-b-2 w-full"></div>
+                          <div className="card-body">
+                            <div className="grid grid-rows-2 grid-flow-col gap-2">
+                              <p>08:30am</p>
+                              <p>10:30pm</p>
+                              <p>12:00pm</p>
+                              <p>02:00pm</p>
+                              <p>04:30pm</p>
+                              <p>07:00pm</p>
+                              <p>08:30pm</p>
+                              <p>08:32pm</p>
+                            </div>
+                            <div className="flex flex-row mt-2">
+                              <p>Price</p>
+                              <p className="font-bold card-actions justify-end">
+                                {item.cinema_price}
+                              </p>
+                            </div>
+                            <div className="flex flex-row mt-2 justify-between">
+                              <button className="btn btn-primary">
+                                Buy Now
+                              </button>
+                              <button className="btn btn-ghost">
+                                <p className="text-primary">Add To Cart</p>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
               </div>
             </div>
-            <p className='text-primary text-center text-xl font-bold p-2'>
+            <p className="text-primary text-center text-xl font-bold p-2">
               view more
             </p>
           </div>
