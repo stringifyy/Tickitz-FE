@@ -1,30 +1,57 @@
 'use client'
-import Data from './data.json'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import SelecSeat from '@/component/SelectSeat'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
-import { redirect } from 'next/navigation'
+import { redirect, usePathname, useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 
 function OrderPage() {
+
     // Private route
     // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
     // const userId = Cookies.get('userId')
     // if (!userId || userId == null || userId == undefined) {
     //     redirect('/login')
     // }
-
     const url = process.env.NEXT_PUBLIC_API_URL
+    const path = usePathname();
+    const id = path.split("/")[2];
+    const router = useRouter()
 
+    // Get data from cookies and state
     const [dataLeft, setDataLeft] = useState([])
     const [dataRight, setDataRight] = useState([])
     const [chek, setChek] = useState([])
     const [dataId, setDataId] = useState([])
     const [dataIdRight, setDataIdRight] = useState([])
-    // console.log("id right", dataIdRight);
+    const movies_time = Cookies.get('movies_time')
+
+    const movies_name = Cookies.get('movies_name')
+    const movies_date = Cookies.get('movies_date')
+    const [cinemaData, setCinemaData] = useState([])
+    const [cinemaPrice, setCinemaPrice] = useState([])
+    Cookies.set('seats', chek)
+    Cookies.set('ticket_count', chek.length)
+    Cookies.set('total_payment', chek.length * parseInt(cinemaPrice))
+    // Get data cinema
+    useEffect(() => {
+        loadCinemaData();
+    }, []);
+
+    const loadCinemaData = async () => {
+        return await axios
+            .get(`http://localhost:5000/api/v1/cinema/${id}`)
+            .then((res) => {
+                setCinemaData(res.data.data);
+                setCinemaPrice(res.data.data.cinema_price)
+                Cookies.set('movies_date', res.data.data.cinema_date)
+                Cookies.set('cinema_name', res.data.data.cinema_name)
+            })
+            .catch((err) => console.log(err));
+    };
 
     //handlle left
     const handleOnChek = (e, id, seatStatus) => {
@@ -120,6 +147,7 @@ function OrderPage() {
             })
                 .then(res => {
                     console.log(res);
+                    router.push('/payment')
                 })
                 .catch(err => {
                     console.log(err);
@@ -134,6 +162,7 @@ function OrderPage() {
             })
                 .then(res => {
                     console.log(res);
+                    router.push('/payment')
                 })
                 .catch(err => {
                     console.log(err);
@@ -167,7 +196,7 @@ function OrderPage() {
                         <p className='text-xl font-semibold mb-5'>Movie Selected</p>
                         <div className="card card-compact w-full bg-base-100 shadow-md">
                             <div className="card-body flex flex-row justify-between">
-                                <h2 className="card-title">Spider-Man: Homecoming</h2>
+                                <h2 className="card-title">{movies_name}</h2>
                                 <button className="btn btn-active btn-ghost text-xs text-[#5F2EEA] btn-sm">change movie</button>
                             </div>
                         </div>
@@ -280,20 +309,20 @@ function OrderPage() {
                             <div className='flex flex-col justify-between w-full '>
                                 <div className=" w-full bg-base-100 shadow-md rounded-xl py-3">
                                     <div className="w-full p-6 flex flex-col items-center">
-                                        <Image src={require("@/assets/CineOne.png")} className="w-32 mb-5" alt='' />
-                                        <h2 className="card-title text-2xl">CineOne21 Cinema</h2>
+                                        {/* <Image src={require("@/assets/CineOne.png")} className="w-32 mb-5" alt='' /> */}
+                                        <h2 className="card-title text-2xl">{cinemaData.cinema_name}</h2>
                                         <div className=' w-full py-10 border-b-[2px]'>
                                             <div className='flex w-full justify-between py-4'>
                                                 <p className='text-[#6B6B6B]'>Movie selected</p>
-                                                <p className=' font-semibold'>Spider-Man: Homecoming</p>
+                                                <p className=' font-semibold'>{movies_name}</p>
                                             </div>
                                             <div className='flex w-full justify-between py-4'>
-                                                <p className='text-[#6B6B6B]'>Tuesday, 07 July 2020</p>
-                                                <p className=' font-semibold'>02:00pm</p>
+                                                <p className='text-[#6B6B6B]'>{movies_date}</p>
+                                                <p className=' font-semibold'>{movies_time}</p>
                                             </div>
                                             <div className='flex w-full justify-between py-4'>
                                                 <p className='text-[#6B6B6B]'>One ticket price</p>
-                                                <p className=' font-semibold'>$10</p>
+                                                <p className=' font-semibold'>{`Rp${cinemaPrice}`}</p>
                                             </div>
                                             <div className='flex w-full justify-between py-4'>
                                                 <p className='text-[#6B6B6B]'>Seat choosed</p>
@@ -307,7 +336,7 @@ function OrderPage() {
                                         </div>
                                         <div className='flex justify-between w-full mt-6'>
                                             <p className='text-lg font-semibold'>Total Payment</p>
-                                            <p className='text-[#5F2EEA] text-2xl font-bold '>$30</p>
+                                            <p className='text-[#5F2EEA] text-2xl font-bold '>{`Rp${chek.length * parseInt(cinemaPrice)}`}</p>
                                         </div>
                                     </div>
                                 </div>
