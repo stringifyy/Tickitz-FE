@@ -6,6 +6,8 @@ import Footer from "@/component/Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import calendarLogo from '@/assets/images/svg/calendar.svg'
+import locationLogo from '@/assets/images/svg/location.svg'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,7 +40,7 @@ const MovieDetails = () => {
       {/* start first content */}
       <div className="container overflow-x-hidden">
         <div className="flex flex-col">
-          <div className="flex flex-row border">
+          <div className="flex flex-row">
             <div className="border rounded-md p-4 m-8">
               <Image
                 src={img}
@@ -96,7 +98,7 @@ const MovieDetails = () => {
       {/* start second content */}
       <div className=" bg-gray-100">
         <div className="container">
-          <div className="flex flex-col border">
+          <div className="flex flex-col">
             <p className="text-center text-2xl font-bold">
               Showtimes and Tickets
             </p>
@@ -108,7 +110,7 @@ const MovieDetails = () => {
                     <li tabIndex={0}>
                       <a>
                         <Image
-                          src={"calendar.svg"}
+                          src={calendarLogo}
                           alt="calendar"
                           className=""
                           width={20}
@@ -125,7 +127,7 @@ const MovieDetails = () => {
                           <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                         </svg>
                       </a>
-                      <ul className="p-2 bg-base-100">
+                      <ul className="p-2 bg-base-100 z-40 w-full">
                         <li>
                           <a>22/07/20</a>
                         </li>
@@ -154,7 +156,7 @@ const MovieDetails = () => {
                     <li tabIndex={0}>
                       <a>
                         <Image
-                          src="location.svg"
+                          src={locationLogo}
                           alt="location"
                           className=""
                           width={20}
@@ -171,7 +173,7 @@ const MovieDetails = () => {
                           <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                         </svg>
                       </a>
-                      <ul className="p-2 bg-base-100">
+                      <ul className="p-2 bg-base-100 z-40 w-full">
                         <li>
                           <a>Padang</a>
                         </li>
