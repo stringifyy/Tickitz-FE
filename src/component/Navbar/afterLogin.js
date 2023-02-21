@@ -7,19 +7,21 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import profile from '@/assets/man.png'
 import Image from 'next/image';
+import Cookies from 'js-cookie';
 
 
 function AfterLogin() {
-  const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  const userId = Cookies.get('userId')
   const url = process.env.NEXT_PUBLIC_API_URL
   const router = useRouter()
   const [image, setImage] = useState('')
   const [imageStatus, setImageStatus] = useState('')
 
   const onLogout = () => {
-    // event.prevenDefault()
-    console.log("onlougt");
-    localStorage.removeItem('@userLogin')
+    // localStorage.removeItem('@userLogin')
+    Cookies.remove('userId')
+    Cookies.remove('userRole')
     router.push("/")
     window.location.reload()
   }

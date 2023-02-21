@@ -10,10 +10,12 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { redirect } from 'next/navigation'
+import Cookies from 'js-cookie'
 
 export default function AccountInfo() {
   // Private route
-  const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  const userId = Cookies.get('userId')
   if (!userId || userId == null || userId == undefined) {
     redirect('/login')
   }

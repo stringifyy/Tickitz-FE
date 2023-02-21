@@ -4,11 +4,18 @@ import Banner from '@/component/AuthBanner'
 import FormAuth from '@/component/AuthForm'
 import axios from 'axios'
 import Login from '../login/page'
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie'
 
 function SignUp() {
+    // Private route
+    // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+    const userId = Cookies.get('userId')
+    if (userId || userId != null || userId != undefined) {
+        redirect('/')
+    }
 
     const [isData, setIsData] = useState(
         { email: "", name: "", phone: "", password: "" }

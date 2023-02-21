@@ -8,11 +8,13 @@ import cineone from '@/assets/images/svg/cineone21.svg'
 import ebuid from '@/assets/images/svg/ebuid.svg'
 import AccountInfo from '../account-information/page'
 import { redirect } from 'next/navigation'
+import Cookies from 'js-cookie'
 // import AccountInfo from ''
 
 export default function OrderHistory() {
   // Private route
-  const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+  const userId = Cookies.get('userId')
   if (!userId || userId == null || userId == undefined) {
     redirect('/login')
   }

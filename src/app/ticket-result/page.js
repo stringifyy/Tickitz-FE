@@ -4,10 +4,12 @@ import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
 import MobileTicket from '@/component/TicketMobile'
 import { redirect } from 'next/navigation'
+import Cookies from 'js-cookie'
 
 function TicketResult() {
     // Private route
-    const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+    // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+    const userId = Cookies.get('userId')
     if (!userId || userId == null || userId == undefined) {
         redirect('/login')
     }

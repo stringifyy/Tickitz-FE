@@ -108,7 +108,7 @@ export default function Home() {
                       <div className="border-2 border-solid border-gray-300 rounded-2xl p-5 flex flex-col items-center">
                         <figure>
                           <label htmlFor="my-modal-4">
-                            <Image src={img} alt="Movies" width={160} height={160} className="rounded-xl w-38" />
+                            <Image src={img} alt="Movies" width={160} height={160} className="rounded-xl w-38 cursor-pointer" />
                           </label>
                         </figure>
                       </div>
