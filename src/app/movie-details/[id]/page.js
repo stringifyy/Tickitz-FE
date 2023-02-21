@@ -5,29 +5,34 @@ import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import calendarLogo from '@/assets/images/svg/calendar.svg'
 import locationLogo from '@/assets/images/svg/location.svg'
+import Cookies from "js-cookie";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const MovieDetails = () => {
+  const router = useRouter()
   const path = usePathname();
   const id = path.split("/")[2];
 
   const [moviesData, setMoviesData] = useState([]);
   const [cinemaData, setCinemaData] = useState([]);
+  const [time, setTime] = useState('')
+  Cookies.set('movies_time', time)
 
   useEffect(() => {
     loadMoviesData();
   }, []);
 
   const loadMoviesData = async () => {
-    return axios
+    return await axios
       .get(`http://localhost:5000/api/v1/movies/${id}`)
       .then((res) => {
         setMoviesData(res.data.data);
         setCinemaData(res.data.data.cinema);
+        Cookies.set('movies_name', res.data.data.movies_name)
       })
       .catch((err) => console.log(err));
   };
@@ -197,14 +202,14 @@ const MovieDetails = () => {
               {/* end location */}
             </div>
             <div class="flex flex-col mt-4">
-              <div class="flex flex-row flex-wrap">
+              <div class="flex flex-row flex-wrap justify-center">
                 {cinemaData.map((item) => {
                   const imgCinema = `http://localhost:5000/uploads/images/${item.cinema_image}`;
                   // console.log(item);
                   return (
                     <>
                       <div className="p-4">
-                        <div className="card w-85 bg-base-100 shadow-xl">
+                        <div className="card w-full h-full bg-base-100 shadow-xl">
                           <div className="flex flex-row p-2">
                             <figure>
                               <Image
@@ -225,14 +230,17 @@ const MovieDetails = () => {
                           <div className="border-b-2 w-full"></div>
                           <div className="card-body">
                             <div className="grid grid-rows-2 grid-flow-col gap-2">
-                              <p>08:30am</p>
-                              <p>10:30pm</p>
-                              <p>12:00pm</p>
-                              <p>02:00pm</p>
-                              <p>04:30pm</p>
-                              <p>07:00pm</p>
-                              <p>08:30pm</p>
-                              <p>08:32pm</p>
+                              <select className="select select-bordered w-full max-w-xs" onChange={(e) => setTime(e.target.value)}>
+                                <option disabled selected>Select time</option>
+                                <option>08:30am</option>
+                                <option>10:30pm</option>
+                                <option>12:00pm</option>
+                                <option>02:00pm</option>
+                                <option>04:30pm</option>
+                                <option>07:00pm</option>
+                                <option>08:30pm</option>
+                                <option>08:32pm</option>
+                              </select>
                             </div>
                             <div className="flex flex-row mt-2">
                               <p>Price</p>
@@ -241,7 +249,7 @@ const MovieDetails = () => {
                               </p>
                             </div>
                             <div className="flex flex-row mt-2 justify-between">
-                              <button className="btn btn-primary">
+                              <button className="btn btn-primary" onClick={() => router.push(`/order/${item.id}`)}>
                                 Buy Now
                               </button>
                               <button className="btn btn-ghost">

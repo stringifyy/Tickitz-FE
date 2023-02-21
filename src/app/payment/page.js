@@ -1,9 +1,13 @@
+'use client'
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import Navbar from '@/component/Navbar';
 import Footer from '@/component/Footer';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,9 +18,65 @@ const Payment = () => {
   // if (!userId || userId == null || userId == undefined) {
   //   redirect('/login')
   // }
+
+  const router = useRouter()
+  const url = process.env.NEXT_PUBLIC_API_URL
+  // Get data from Cookies
+  const userId = Cookies.get('userId')
+  const seats = Cookies.get('seats')
+  const movies_date = Cookies.get('movies_date')
+  const movies_time = Cookies.get('movies_time')
+  const movies_name = Cookies.get('movies_name')
+  const cinema_name = Cookies.get('cinema_name')
+  const ticket_count = parseInt(Cookies.get('ticket_count'))
+  const total_payment = parseInt(Cookies.get('total_payment'))
+
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    await axios.post(`${url}/api/v1/history`, {
+      id_user: userId,
+      movies_name: movies_name,
+      movies_date: movies_date,
+      movies_time: movies_time,
+      cinema_name: cinema_name,
+      ticket_count: ticket_count,
+      total_payment: total_payment,
+      seats: seats
+    })
+      .then(res => {
+        console.log(res);
+        toast.success("Payment success!", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setTimeout(() => {
+          router.push('/ticket-result')
+        }, 1500);
+      })
+      .catch(err => {
+        console.log(err);
+        toast.error("Sorry, something was wrong", {
+          position: "bottom-left",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        })
+      })
+  }
+
   return (
     <>
-
+      <ToastContainer />
       {/* navbar */}
       <Navbar />
 
@@ -34,28 +94,28 @@ const Payment = () => {
                       <tr>
                         <td>Date & time</td>
                         <td className='font-bold'>
-                          Tuesday, 07 July 2020 at 02:00pm
+                          {`${movies_date} at ${movies_time}`}
                         </td>
                       </tr>
 
                       <tr>
                         <td>Movie title</td>
-                        <td className='font-bold'>Spider-Man: Homecoming</td>
+                        <td className='font-bold'>{movies_name}</td>
                       </tr>
 
                       <tr>
                         <td>Cinema name</td>
-                        <td className='font-bold'>CineOne21 Cinema</td>
+                        <td className='font-bold'>{cinema_name}</td>
                       </tr>
 
                       <tr>
                         <td>Number of tickets</td>
-                        <td className='font-bold'>3 pieces</td>
+                        <td className='font-bold'>{ticket_count} pieces</td>
                       </tr>
 
                       <tr>
                         <td>Total payment</td>
-                        <td className='font-bold'>$30,00</td>
+                        <td className='font-bold'>{`Rp${total_payment}`}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -216,7 +276,9 @@ const Payment = () => {
 
               {/* start right bottom button */}
               <div className='flex flex-col p-2 mt-4'>
-                <button className='btn btn-primary'>Pay your order</button>
+                <button
+                  className='btn btn-primary'
+                  onClick={handlePayment}>Pay your order</button>
                 <button className='btn btn-outline btn-primary mt-2'>
                   Previous step
                 </button>

@@ -6,6 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 import AfterLogin from './afterLogin';
 import { useRouter } from 'next/navigation';
 import tickitz from "@/assets/images/svg/tickitz-logo.svg"
+import Cookies from 'js-cookie';
 // import search from "@/assets/images/svg/search.svg"
 import Cookies from 'js-cookie';
 
