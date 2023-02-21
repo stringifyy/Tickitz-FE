@@ -6,13 +6,20 @@ import { Inter } from '@next/font/google';
 import Navbar from '@/component/Navbar';
 import Footer from '@/component/Footer';
 import CardAdmin from '@/component/CardAdmin';
+import imagePlaceHolder from '@/assets/placeholder.png'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 // import Cookies from 'js-cookie';
 // import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const Admin = () => {
+  const router = useRouter()
   const url = 'http://localhost:5000/api/v1/movies';
+
+  const [imagePreview, setImagePreview] = useState('')
 
   const [movies_name, setMoviesName] = useState('');
   const [movies_genre, setMoviesGenre] = useState('');
@@ -20,7 +27,7 @@ const Admin = () => {
   const [movies_directed, setMoviesDirected] = useState('');
   const [movies_cast, setMoviesCast] = useState('');
   const [movies_synopsis, setMoviesSynopsis] = useState('');
-  // const [movies_image, setMoviesImage] = useState('');
+  const [movies_image, setMoviesImage] = useState('');
   const [date, setDate] = useState('');
   const [duration, setDuration] = useState('');
 
@@ -35,9 +42,9 @@ const Admin = () => {
     body.append('movies_directed', movies_directed);
     body.append('movies_cast', movies_cast);
     body.append('movies_synopsis', movies_synopsis);
-    // body.append('movies_image', movies_image);
-    body.append('date', date);
     body.append('duration', duration);
+    body.append('movies_image', movies_image);
+    body.append('date', date);
 
     try {
       await axios.post(`${url}`, body, {
@@ -46,16 +53,39 @@ const Admin = () => {
           'Content-type': 'multi/form-data',
         },
       });
-      alert('Movies Added!');
+      toast.success("Movie Release!", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setTimeout(() => {
+        router.push('/');
+      }, 1500);
     } catch (error) {
       console.log(error.response.data.message);
+      toast.error("Sorry, something was wrong", {
+        position: "bottom-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      })
     }
   };
-
   const onImageUpload = (e) => {
+    e.preventDefault();
     const file = e.target.files[0];
-    setMoviesImage(URL.createObjectURL(file));
-  };
+    setMoviesImage(file)
+    setImagePreview(URL.createObjectURL(file))
+  }
   // Private route
   // const userId = Cookies.get('userId');
   // const userRole = Cookies.get('userRole');
@@ -65,6 +95,7 @@ const Admin = () => {
   // }
   return (
     <>
+      <ToastContainer />
       <Navbar />
       {/* start first content */}
       <div className='bg-[#E5E5E5]'>
@@ -74,24 +105,16 @@ const Admin = () => {
               <div>
                 <p className='font-bold text-2xl'>Movie Description</p>
                 {/* start movie description */}
-                <form onSubmit={handleSubmit}>
+                <div>
                   <div className='card w-[45vw] bg-base-100 shadow-xl'>
                     <div className='card-body'>
                       <div className='flex flex-row'>
                         <div>
                           <div className='border rounded-md p-2 m-2'>
-                            {/* <Image
-                            src='spiderman-poster.svg'
-                            alt='spiderman-poster'
-                            className=''
-                            width={300}
-                            height={350}
-                          /> */}
-                            <input
-                              type='file'
-                              className='file-input w-full max-w-xs'
-                              onChange={(e) => onImageUpload(e)}
-                            />
+                            {imagePreview ? <Image src={imagePreview} width={160} height={160} className='w-[160px] h-[160px]' alt='profile' /> : <Image src={imagePlaceHolder} width={160} height={160} className='w-[160px] h-[160px]' alt='profile' />}
+                            {/* <Image src={imagePlaceHolder} /> */}
+                            <h2 className='cursor-pointer btn btn-primary' onClick={() => document.querySelector(".input-field").click()}>Upload Image</h2>
+                            <input type='file' className='input-field file-input w-full max-w-xs' multiple hidden onChange={(e) => onImageUpload(e)} />
                           </div>
                         </div>
                         <div className='flex flex-col'>
@@ -215,13 +238,13 @@ const Admin = () => {
                   <div>
                     <button
                       className='btn btn-primary w-full mt-2'
-                      type='submit'
+                      onClick={handleSubmit}
                     >
                       Add Movies
                     </button>
                   </div>
                   {/* end button add movies  */}
-                </form>
+                </div>
               </div>
             </div>
 
