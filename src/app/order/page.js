@@ -1,26 +1,43 @@
 'use client'
 import Data from './data.json'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import SelecSeat from '@/component/SelectSeat'
 import Navbar from '@/component/Navbar'
 import Footer from '@/component/Footer'
+import { redirect } from 'next/navigation'
+import Cookies from 'js-cookie'
+import axios from 'axios'
 
 function OrderPage() {
+    // Private route
+    // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
+    // const userId = Cookies.get('userId')
+    // if (!userId || userId == null || userId == undefined) {
+    //     redirect('/login')
+    // }
 
+    const url = process.env.NEXT_PUBLIC_API_URL
+
+    const [dataLeft, setDataLeft] = useState([])
+    const [dataRight, setDataRight] = useState([])
     const [chek, setChek] = useState([])
-    const handleOnChek = (e) => {
-        console.log('ceheck', chek)
+    const [dataId, setDataId] = useState([])
+    const [dataIdRight, setDataIdRight] = useState([])
+    // console.log("id right", dataIdRight);
+
+    //handlle left
+    const handleOnChek = (e, id, seatStatus) => {
         if (chek.length != 0) {
             for (let i = 0; i < chek.length + 1; i++) {
                 if (chek[i] == e) {
-                    console.log('delete', e)
+                    // console.log('delete', e)
                     delete chek[i];
                     let data = chek.filter((item) => item != undefined)
                     setChek(data);
                     i = chek.length + 1;
                 } else {
-                    console.log('add', e)
+                    // console.log('add', e)
                     setChek([
                         ...chek,
                         e
@@ -30,15 +47,120 @@ function OrderPage() {
         } else {
             setChek([e])
         }
+        if (dataId.length != 0) {
+            for (let i = 0; i < dataId.length + 1; i++) {
+                if (dataId[i] == id) {
+                    // console.log('delete', id)
+                    delete dataId[i]
+                    let dataSeatId = dataId.filter((item) => item != undefined)
+                    setDataId(dataSeatId)
+                    i = dataId.length + 1;
+                } else {
+                    // console.log('add', id)
+                    setDataId([
+                        ...dataId,
+                        id
+                    ])
+                }
+            }
+        } else {
+            setDataId([id])
+        }
+    }
+
+    const handleOnChekRight = (e, id, seatStatus) => {
+        if (chek.length != 0) {
+            for (let i = 0; i < chek.length + 1; i++) {
+                if (chek[i] == e) {
+                    // console.log('delete', e)
+                    delete chek[i];
+                    let data = chek.filter((item) => item != undefined)
+                    setChek(data);
+                    i = chek.length + 1;
+                } else {
+                    // console.log('add', e)
+                    setChek([
+                        ...chek,
+                        e
+                    ])
+                }
+            }
+        } else {
+            setChek([e])
+        }
+        if (dataIdRight.length != 0) {
+            for (let i = 0; i < dataIdRight.length + 1; i++) {
+                if (dataIdRight[i] == id) {
+                    // console.log('delete', id)
+                    delete dataIdRight[i]
+                    let dataSeatId = dataIdRight.filter((item) => item != undefined)
+                    setDataIdRight(dataSeatId)
+                    i = dataIdRight.length + 1;
+                } else {
+                    // console.log('add', id)
+                    setDataIdRight([
+                        ...dataIdRight,
+                        id
+                    ])
+                }
+            }
+        } else {
+            setDataIdRight([id])
+        }
+    }
+
+    const [status, setStatus] = useState({ status: 'true' })
+    const handleSeats = () => {
+        for (let i = 0; i < dataId.length; i++) {
+            axios.patch(`${url}/api/v1/seats_left/${dataId[i]}`, status, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        for (let i = 0; i < dataIdRight.length; i++) {
+            axios.patch(`${url}/api/v1/seats_right/${dataIdRight[i]}`, status, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
     }
 
     useEffect(() => {
-        console.log('data')
-    }, [chek])
+        loadSeatsLeft()
+        loadSeatsRight()
+    }, [dataIdRight, dataId])
+
+    const loadSeatsLeft = async () => {
+        return await axios.get(`http://localhost:5000/api/v1/seats_left`)
+            .then(res => setDataLeft(res.data.data))
+            .catch((err) => console.log(err))
+    }
+    const loadSeatsRight = async () => {
+        return await axios.get(`http://localhost:5000/api/v1/seats_right`)
+            .then(res => setDataRight(res.data.data))
+            .catch((err) => console.log(err))
+    }
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
+            {/* movie selected */}
             <div className='bg-[#F5F6F8]'>
                 <div className='container pb-16 md:pt-16'>
                     <div className='  hidden md:flex flex-col'>
@@ -52,7 +174,8 @@ function OrderPage() {
                     </div>
                     <div className='w-full flex-col md:flex md:flex-row md:justify-between'>
                         <div className='md:w-[69%] w:full'>
-                            <p className='text-xl font-semibold mb-5 pt-12'>Choose Your Seat</p>
+                            {/* <p className='text-xl font-semibold mb-5 pt-12'>{dataId}</p> */}
+                            <p className='text-xl font-semibold mb-5 pt-12'>{dataIdRight}</p>
                             <div
                                 className='bg-white shadow-md w-full px-4 md:px-32 flex flex-col items-center py-10 rounded-xl'>
                                 <p className='w-full text-center mb-10 text-[#4E4B66]'>Screen</p>
@@ -70,30 +193,27 @@ function OrderPage() {
                                     <div className='flex md:w-[95%] w-full justify-between'>
                                         <div className='flex flex-wrap justify-center md:w-[45%] w-[47%]'>
                                             {
-                                                Data
-                                                    .data
+                                                dataLeft
                                                     .map((item, i) => (
                                                         <input
                                                             key={i}
                                                             type="checkbox"
-                                                            className="bg-[#D6D8E7] appearance-none checked:bg-blue-500 w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded"
+                                                            className={item.status == true ? `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-red-900` : `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-[#D6D8E7]`}
                                                             value={item.site}
-                                                            disabled={item.status ? true : false}
-                                                            onChange={(e) => handleOnChek(e.target.value)}/>
+                                                            onChange={(e) => handleOnChek(e.target.value, item.id, item.status)} />
                                                     ))
                                             }
                                         </div>
                                         <div className='flex justify-center flex-wrap md:w-[45%] w-[47%]'>
                                             {
-                                                Data
-                                                    .data2
+                                                dataRight
                                                     .map((item, i) => (
                                                         <input
                                                             key={i}
                                                             type="checkbox"
-                                                            className="bg-[#D6D8E7] appearance-none checked:bg-blue-500 w-[11%] md:h-7 h-5 md:w-[11%] md:mr-2 mr-1 mb-2 rounded"
+                                                            className={item.status == true ? `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-red-900` : `appearance-none checked:bg-[#5F2EEA] w-[11%] md:w-[10%] md:h-7 h-5 md:mr-2 mr-1 mb-2 rounded bg-[#D6D8E7]`}
                                                             value={item.site}
-                                                            onChange={(e) => handleOnChek(e.target.value)}/>
+                                                            onChange={(e) => handleOnChekRight(e.target.value, item.id)} />
                                                     ))
                                             }
                                         </div>
@@ -123,14 +243,14 @@ function OrderPage() {
                                 <div
                                     className='flex flex-wrap items-center w-[90%] h-6 justify-between mb-4 md:hidden'>
                                     <div className='flex w-1/2'>
-                                        <Image src={require("@/assets/Forward-Arrow.png")} className="w-6 mr-4" alt=""/>
+                                        <Image src={require("@/assets/Forward-Arrow.png")} className="w-6 mr-4" alt="" />
                                         <p className='font-semibold'>A - G</p>
                                     </div>
                                     <div className='flex w-1/2'>
                                         <Image
                                             src={require("@/assets/Forward-Arrow.png")}
                                             alt=""
-                                            className="w-6 mr-4 rotate-[-90deg]"/>
+                                            className="w-6 mr-4 rotate-[-90deg]" />
                                         <p className='font-semibold'>1 - 14</p>
                                     </div>
                                 </div>
@@ -149,7 +269,7 @@ function OrderPage() {
                                         <p>Love nest</p>
                                     </div>
                                     <div className='flex w-1/2 md:w-1/4'>
-                                        <div className='w-6 h-6 bg-[#6E7191] rounded mr-4'></div>
+                                        <div className='w-6 h-6 bg-red-900 rounded mr-4'></div>
                                         <p>Sold</p>
                                     </div>
                                 </div>
@@ -160,7 +280,7 @@ function OrderPage() {
                             <div className='flex flex-col justify-between w-full '>
                                 <div className=" w-full bg-base-100 shadow-md rounded-xl py-3">
                                     <div className="w-full p-6 flex flex-col items-center">
-                                        <Image src={require("@/assets/CineOne.png")} className="w-32 mb-5" alt=''  />
+                                        <Image src={require("@/assets/CineOne.png")} className="w-32 mb-5" alt='' />
                                         <h2 className="card-title text-2xl">CineOne21 Cinema</h2>
                                         <div className=' w-full py-10 border-b-[2px]'>
                                             <div className='flex w-full justify-between py-4'>
@@ -191,7 +311,7 @@ function OrderPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <button className="btn btn-primary w-full mt-6 absolute bottom-0 h-12">Checkout now</button>
+                                <button className="btn btn-primary w-full mt-6 absolute bottom-0 h-12" onClick={(() => handleSeats())}>Checkout now</button>
                             </div>
                         </div>
                         <div className='md:hidden rounded-lg p-4 bg-white mt-8 shadow-md'>
@@ -205,11 +325,11 @@ function OrderPage() {
                                 </div>
                             </div>
                         </div>
-                        <SelecSeat/>
+                        <SelecSeat />
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

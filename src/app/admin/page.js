@@ -3,10 +3,19 @@ import { Inter } from '@next/font/google';
 import Navbar from '@/component/Navbar';
 import Footer from '@/component/Footer';
 import CardAdmin from '@/component/CardAdmin';
+import Cookies from 'js-cookie';
+import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const Admin = () => {
+  // Private route
+  const userId = Cookies.get('userId')
+  const userRole = Cookies.get('userRole')
+  // console.log(userRole);
+  if (userRole == 'user') {
+    redirect('/')
+  }
   return (
     <>
       <Navbar />
