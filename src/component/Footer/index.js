@@ -7,8 +7,8 @@ export default function Footer() {
   return (
     <>
       <footer className='footer text-base-content border shadow-xl py-8'>
-        <div className='container flex justify-between'>
-          <div className='flex flex-col'>
+        <div className='container flex flex-col md:flex-row justify-between'>
+          <div className='flex flex-col w-'>
             <Image
               src='tickitz-logo.svg'
               alt='tickitz-logo'
@@ -22,21 +22,23 @@ export default function Footer() {
               conveniently, watch movies quietly.
             </p>
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col '>
             <span className='footer-title'>Explore</span>
-            <a className='link link-hover'>Cinemas</a>
-            <a className='link link-hover'>Movies List</a>
-            <a className='link link-hover'>My Ticket</a>
-            <a className='link link-hover'>Notification</a>
+            <div className='flex flex-wrap md:flex-col w-full'>
+              <a className='link link-hover w-1/3'>Cinemas</a>
+              <a className='link link-hover w-1/3'>Movies List</a>
+              <a className='link link-hover w-1/3'>My Ticket</a>
+              <a className='link link-hover w-1/3'>Notification</a>
+            </div>
           </div>
           <div className='flex flex-col'>
             <span className='footer-title'>Our Sponsor</span>
-            <div className='flex flex-col'>
+            <div className='flex md:flex-col '>
               <a className='link link-hover'>
                 <Image
                   src='ebv.id.svg'
                   alt='ebv.id-logo'
-                  className=''
+                  className='mr-5'
                   width={100}
                   height={150}
                 />
@@ -45,7 +47,7 @@ export default function Footer() {
                 <Image
                   src='cineone21.svg'
                   alt='cineone21-logo'
-                  className='mt-4'
+                  className='mt-4 mr-5'
                   width={100}
                   height={150}
                 />
@@ -54,7 +56,7 @@ export default function Footer() {
                 <Image
                   src='hiflix.svg'
                   alt='hiflix-logo'
-                  className='mt-4'
+                  className='mt-4 mr-5'
                   width={100}
                   height={150}
                 />
