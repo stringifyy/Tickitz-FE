@@ -26,8 +26,7 @@ To get the Next.js app running locally:
      ┃ ┣ movie-details
      ┃ ┃ ┣ [id]
      ┃ ┃ ┃ ┗ page.js
-     ┃ ┃ ┗ page.js![Screenshot_20230222_124517](https://user-images.githubusercontent.com/114414904/220420679-8e186523-aa86-4fbd-8bfc-d4022b492444.png)
-
+     ┃ ┃ ┗ page.js
      ┃ ┣ order
      ┃ ┃ ┣ data.json
      ┃ ┃ ┗ page.js
