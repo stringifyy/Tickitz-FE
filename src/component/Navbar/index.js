@@ -7,13 +7,15 @@ import AfterLogin from './afterLogin';
 import { useRouter } from 'next/navigation';
 import tickitz from "@/assets/images/svg/tickitz-logo.svg"
 // import search from "@/assets/images/svg/search.svg"
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
+
 
     const router = useRouter()
     const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
-        if (localStorage.getItem('@userLogin')) {
+        if (Cookies.get('userId')) {
             setIsLogin(true)
         } else {
             setIsLogin(false)
@@ -28,7 +30,7 @@ export default function Navbar() {
 
     return (
         <div className='pb-[7rem]'>
-            <div className='navbar bg-white shadow-xl h-[100px] md:h-[15vh] w-full p-0 m-0 fixed top-0 right-0 z-[999]'>
+            <div className='navbar bg-white shadow-md h-[100px] md:h-[15vh] w-full p-0 m-0 fixed top-0 right-0 z-[999]'>
                 <div className='container'>
                     <div className='flex justify-between w-full'>
                         <div className='flex items-center'>

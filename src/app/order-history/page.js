@@ -1,14 +1,20 @@
-import React from 'react'
+
+
+'use client'
+import React,{useState, useEffect} from 'react'
 import Link from 'next/link'
 import cardPoint from '@/assets/images/svg/loyalty-points.svg'
 import Image from 'next/image'
 // import image
-import profile from '@/assets/images/png/profile.png'
+import profile from '@/assets/man.png'
 import cineone from '@/assets/images/svg/cineone21.svg'
 import ebuid from '@/assets/images/svg/ebuid.svg'
 import AccountInfo from '../account-information/page'
 import { redirect } from 'next/navigation'
 import Cookies from 'js-cookie'
+import axios from 'axios'
+import Navbar from '@/component/Navbar'
+import Footer from '@/component/Footer'
 // import AccountInfo from ''
 
 export default function OrderHistory() {
@@ -18,25 +24,57 @@ export default function OrderHistory() {
   // if (!userId || userId == null || userId == undefined) {
   //   redirect('/login')
   // }
+
+
+  const url = process.env.NEXT_PUBLIC_API_URL
+
+  const userId = Cookies.get('userId')
+  const [imageCurrent, setsetImageCurrent] = useState()
+  const [dataUser, setDataUser] = useState([])
+  const [dataHistory, setDataHistory] = useState([])
+  console.log("data history",dataHistory);
+  // console.log("img",imageCurrent);
+
+  useEffect(() => {
+    axios
+      .get(`${url}/api/v1/auth/users/${userId}`)
+      .then(res => {
+        setDataUser(res.data.data)
+        setsetImageCurrent(`${url}/uploads/images/${res.data.data.profile_image}`)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+
+  useEffect(() => {
+    axios
+      .get(`${url}/api/v1/history/${userId}`)
+      .then(res => {
+        setDataHistory(res.data.data.history)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+
   return (
     <>
+      <Navbar/>
       <div className="container mt-10">
         <div className="flex flex-col lg:flex-row">
-
           {/* card photo */}
           <div className="flex flex-col">
             <div className="card w-full lg:w-80 bg-base-100 rounded-lg shadow-md">
               <div className="card-body">
-                <div className="flex justify-between font-semibold">
+                <div className="flex font-semibold">
                   <h2 className="">Info</h2>
-                  <Link href="">Edit</Link>
                 </div>
                 <div className='flex flex-col lg:flex-col justify-center items-center'>
                   <label htmlFor="my-modal-4">
-                    <Image src={profile} alt="profile" htmlFor="" />
+                    <Image src={imageCurrent ? imageCurrent: profile  } 
+                    alt="profile" width={200} height={200} className='w-[200px] h-[200px]'/>
                   </label>
-                  <h2 className='font-bold'>Firman Subagja</h2>
-                  <p className='text-gray-500'>Moviegoers</p>
+                  <h2 className='font-bold'>{dataUser?.name}</h2>
+                  <p className='text-gray-500'>{dataUser?.phone}</p>
                 </div>
               </div>
             </div>
@@ -48,13 +86,12 @@ export default function OrderHistory() {
                   <h2>Loyalty Points</h2>
                 </div>
                 <div className='flex flex-row lg:flex-col justify-center'>
-                  <Image src={cardPoint} alt="Card Point" />
+                  <Image src={require("@/assets/loyalti-point.jpeg")} alt="Card Point" />
                 </div>
               </div>
             </div>
           </div>
           {/* end */}
-
           {/* history card */}
           <div className="card w-full mt-5 lg:mt-0 bg-base-100 rounded-lg ml-0 lg:ml-4 shadow-md">
             <div className="card-body">
@@ -73,19 +110,22 @@ export default function OrderHistory() {
               </div>
 
               {/* history card */}
-              {[1, 2, 3].map(() => {
+              {dataHistory.map((item) => {
                 return (
                   <>
                     <div className="card w-full bg-white border-2 rborder-solid border-gray-200 rounded-xl mt-5">
                       <div className="card-body">
-                        <span className='text-gray-400'>Tuesday, 07 July 2020 - 04:30pm</span>
+                        <span className='text-gray-400'>{item.movies_date} - {item.movies_time}</span>
                         <div className='flex justify-between'>
                           <div>
-                            <h2 className="card-title">Spider-mega</h2>
+                            <h2 className="card-title">{item.movies_name}</h2>
                           </div>
-                          <figure>
+                          <div>
+                            <h2 className="card-title text-3xl text-[#5F2EEA] font-bold">{item.cinema_name}</h2>
+                          </div>
+                          {/* <figure>
                             <Image src={cineone} alt="Movies Place" />
-                          </figure>
+                          </figure> */}
                         </div>
 
                         {/* button */}
@@ -130,6 +170,7 @@ export default function OrderHistory() {
           </div>
         </label>
       </label>
+      <Footer/>
     </>
   )
 }

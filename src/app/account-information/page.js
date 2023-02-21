@@ -30,7 +30,6 @@ export default function AccountInfo() {
   const [imageCurrent, setImageCurrent] = useState('')
   const [imagePreview, setImagePreview] = useState('')
   const [imageStatus, setImageStatus] = useState('')
-
   const [image, setImage] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -138,7 +137,6 @@ export default function AccountInfo() {
                 </div>
               </div>
             </div>
-
             {/* card loyalty point */}
             <div className="card w-full lg:w-80 bg-base-100 rounded-lg mt-1 shadow-md">
               <div className="card-body ">
@@ -146,7 +144,7 @@ export default function AccountInfo() {
                   <h2>Loyalty Points</h2>
                 </div>
                 <div className='flex flex-row lg:flex-col justify-center'>
-                  <Image src={cardPoint} alt="Card Point" />
+                  <Image src={require("@/assets/loyalti-point.jpeg")} alt="Card Point" />
                 </div>
               </div>
             </div>
