@@ -1,9 +1,21 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import movie1 from "@/assets/images/png/movie1.png"
+// import movie1 from "@/assets/images/png/movie1.png"
 import Link from 'next/link'
+import axios from 'axios'
 
 export default function UpComming() {
+  const [dataMovies, setDataMovies] = useState([])
+  useEffect(() => {
+    loadUserData()
+  }, [])
+  const loadUserData = async () => {
+    return axios.get('http://localhost:5000/api/v1/movies?sortBy=asc')
+      .then(res => setDataMovies(res.data.data))
+      .catch((err) => console.log(err))
+  }
+
   return (
     <>
       <div className="container">
@@ -13,19 +25,20 @@ export default function UpComming() {
         </div>
         <div className="flex mt-10">
           <div className="carousel rounded-box w-screen">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map(() => {
+            {dataMovies.map((item) => {
+              const img = `http://localhost:5000/uploads/images/${item.movies_image}`
               return (
                 <>
                   <div className="mr-10 carousel-item mb-10 rounded-none">
                     <div className="border-2 border-solid border-gray-300 rounded-2xl p-5 flex flex-col items-center">
                       <figure>
-                        <Image src={movie1} alt="Shoes" className="rounded-xl w-38 cursor-pointer" />
+                        <Image src={img} alt="Movies" width={160} height={160} className="rounded-xl w-38 cursor-pointer" />
                       </figure>
                       <div className="font-bold text-xl mt-5">
-                        <h1>Spider-mega</h1>
+                        <h1>{item.movies_name}</h1>
                       </div>
                       <div className="text-sm mb-5">
-                        <p>Action, Heroes, Romantic</p>
+                        <p>{item.movies_genre}</p>
                       </div>
                       <button className="btn btn-outline btn-primary btn-block">Details</button>
                     </div>

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import herobanner1 from "@/assets/images/png/herobanner1-asset.png"
+import searchMovies from "@/assets/images/svg/search.svg"
 import Image from "next/image"
 import Link from "next/link"
 import NowComming from "@/component/nowShowing"
@@ -76,7 +77,7 @@ export default function Home() {
                   type="text" placeholder="Search Movies" className="input w-full max-w-xs" />
                 : null
               }
-              <Image src='search.svg' alt='search' className='mx-5 cursor-pointer' width={24} height={24} onClick={() => setShowing(!showing)} />
+              <Image src={searchMovies} alt='search' className='mx-5 cursor-pointer' width={24} height={24} onClick={() => setShowing(!showing)} />
               <div href="" className="font-semibold cursor-pointer" onClick={() => (setSearch(""), setFilter(""))}>View All</div>
             </div>
           </div>
@@ -153,6 +154,7 @@ export default function Home() {
                   <>
                     <Link href={`/movie-details/${item.id}`} className="mr-10 carousel-item mb-10 rounded-none">
                       <div className="border-2 border-solid border-gray-300 rounded-2xl p-5 flex flex-col items-center">
+                        <h1 className="font-bold mb-4">{item.movies_name}</h1>
                         <figure>
                           <label htmlFor="my-modal-4">
                             <Image src={img} alt="Movies" width={160} height={160} className="rounded-xl w-38 cursor-pointer" />

@@ -126,13 +126,31 @@ function TicketResult() {
 
                             {/* button action */}
                             <div className='py-12 flex'>
-                                <button className="btn btn-outline text-[#4E4B66] mr-5">
+                                <label className="btn btn-outline text-[#4E4B66] mr-5" htmlFor="my-modal-3">
                                     <Image src={require("@/assets/download.png")} alt="" className="w-6 mr-3" />
-                                    Download</button>
+                                    Download</label>
+
+                                <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+                                {/* Modal start */}
+                                <div className="modal">
+                                    <div className="modal-box relative">
+                                        <label
+                                            htmlFor="my-modal-3"
+                                            className="btn btn-sm btn-circle absolute right-2 top-2"
+                                        >
+                                            ✕
+                                        </label>
+                                        <h3 className="text-lg font-bold">Sorry this feature not available for now</h3>
+                                        <p className="py-4">You can print the payment receipt by click the print button beside!</p>
+                                        <h1 className='text-[30px] font-semibold text-center'>Thank You</h1>
+                                    </div>
+                                </div>
+                                {/* Modal End */}
                                 <button className="btn btn-outline text-[#4E4B66]" onClick={handlePrint}>
                                     <Image src={require("@/assets/printer.png")} alt="" className="w-6 mr-3" />
                                     Print</button>
                             </div>
+
                         </div>
                     </div>
                     <MobileTicket />
