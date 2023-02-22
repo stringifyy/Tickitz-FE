@@ -1,7 +1,7 @@
 
 
 'use client'
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import cardPoint from '@/assets/images/svg/loyalty-points.svg'
 import Image from 'next/image'
@@ -19,20 +19,17 @@ import Footer from '@/component/Footer'
 
 export default function OrderHistory() {
   // Private route
-  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-  // const userId = Cookies.get('userId')
-  // if (!userId || userId == null || userId == undefined) {
-  //   redirect('/login')
-  // }
+  const userId = Cookies.get('userId')
+  if (!userId || userId == null || userId == undefined) {
+    redirect('/login')
+  }
 
 
   const url = process.env.NEXT_PUBLIC_API_URL
-
-  const userId = Cookies.get('userId')
   const [imageCurrent, setsetImageCurrent] = useState()
   const [dataUser, setDataUser] = useState([])
   const [dataHistory, setDataHistory] = useState([])
-  console.log("data history",dataHistory);
+  console.log("data history", dataHistory);
   // console.log("img",imageCurrent);
 
   useEffect(() => {
@@ -58,7 +55,7 @@ export default function OrderHistory() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div className="container mt-10">
         <div className="flex flex-col lg:flex-row">
           {/* card photo */}
@@ -70,8 +67,8 @@ export default function OrderHistory() {
                 </div>
                 <div className='flex flex-col lg:flex-col justify-center items-center'>
                   <label htmlFor="my-modal-4">
-                    <Image src={imageCurrent ? imageCurrent: profile  } 
-                    alt="profile" width={200} height={200} className='w-[200px] h-[200px]'/>
+                    <Image src={imageCurrent ? imageCurrent : profile}
+                      alt="profile" width={200} height={200} className='w-[200px] h-[200px]' />
                   </label>
                   <h2 className='font-bold'>{dataUser?.name}</h2>
                   <p className='text-gray-500'>{dataUser?.phone}</p>
@@ -170,7 +167,7 @@ export default function OrderHistory() {
           </div>
         </label>
       </label>
-      <Footer/>
+      <Footer />
     </>
   )
 }

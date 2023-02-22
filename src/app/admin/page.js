@@ -10,12 +10,17 @@ import imagePlaceHolder from '@/assets/placeholder.png'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
-// import Cookies from 'js-cookie';
-// import { redirect } from 'next/navigation';
+import Cookies from 'js-cookie';
+import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const Admin = () => {
+  // Private route
+  const userId = Cookies.get('userId')
+  if (!userId || userId == null || userId == undefined) {
+    redirect('/login')
+  }
   const router = useRouter()
   const url = 'http://localhost:5000/api/v1/movies';
 
@@ -86,13 +91,6 @@ const Admin = () => {
     setMoviesImage(file)
     setImagePreview(URL.createObjectURL(file))
   }
-  // Private route
-  // const userId = Cookies.get('userId');
-  // const userRole = Cookies.get('userRole');
-  // console.log(userRole);
-  // if (userRole == 'user') {
-  //   redirect('/');
-  // }
   return (
     <>
       <ToastContainer />

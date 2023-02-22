@@ -1,13 +1,11 @@
 'use client';
 import Image from 'next/image';
-import { Inter } from '@next/font/google';
+import { Cookie, Inter } from '@next/font/google';
 import { useState, useEffect } from 'react';
 const inter = Inter({ subsets: ['latin'] });
 import AfterLogin from './afterLogin';
 import { useRouter } from 'next/navigation';
 import tickitz from "@/assets/images/svg/tickitz-logo.svg"
-import Cookies from 'js-cookie';
-// import search from "@/assets/images/svg/search.svg"
 import Cookies from 'js-cookie';
 
 export default function Navbar() {
@@ -22,6 +20,18 @@ export default function Navbar() {
             setIsLogin(false)
         }
     }, [])
+
+    const isAdmin = () => {
+        if ((Cookies.get('userRole') === 'admin')) {
+            return (
+                <li>
+                    <a onClick={() => router.push('/admin')}>Dashboard</a>
+                </li>
+            )
+        } else {
+            return ''
+        }
+    }
 
     // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.user_id;
     // useEffect(() => {     axios
@@ -54,6 +64,7 @@ export default function Navbar() {
                                 <li>
                                     <a>Buy Ticket</a>
                                 </li>
+                                {isAdmin()}
                             </ul>
                         </div>
                         <div className='flex flex-row hidden md:flex'>

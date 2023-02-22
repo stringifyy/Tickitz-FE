@@ -9,20 +9,28 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import bca from '@/assets/images/svg/bca.svg'
+import bri from '@/assets/images/svg/bri.svg'
+import dana from '@/assets/images/svg/dana.svg'
+import googlePay from '@/assets/images/svg/google-pay.svg'
+import gopay from '@/assets/images/svg/gopay.svg'
+import ovo from '@/assets/images/svg/ovo.svg'
+import paypal from '@/assets/images/svg/paypal.svg'
+import visa from '@/assets/images/svg/visa.svg'
+import warning from '@/assets/images/svg/warning.svg'
+
 const inter = Inter({ subsets: ['latin'] });
 
 const Payment = () => {
   // Private route
-  // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
-  // const userId = Cookies.get('userId')
-  // if (!userId || userId == null || userId == undefined) {
-  //   redirect('/login')
-  // }
+  const userId = Cookies.get('userId')
+  if (!userId || userId == null || userId == undefined) {
+    redirect('/login')
+  }
 
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_API_URL
   // Get data from Cookies
-  const userId = Cookies.get('userId')
   const seats = Cookies.get('seats')
   const movies_date = Cookies.get('movies_date')
   const movies_time = Cookies.get('movies_time')
@@ -134,7 +142,7 @@ const Payment = () => {
                   <div class='grid grid-rows-2 grid-flow-col gap-4'>
                     <button className='btn btn-outline'>
                       <Image
-                        src='google-pay.svg'
+                        src={googlePay}
                         alt='google-pay'
                         className=''
                         width={40}
@@ -143,7 +151,7 @@ const Payment = () => {
                     </button>
                     <button className='btn btn-outline'>
                       <Image
-                        src='visa.svg'
+                        src={visa}
                         alt='visa'
                         className=''
                         width={40}
@@ -152,7 +160,7 @@ const Payment = () => {
                     </button>
                     <button className='btn btn-outline'>
                       <Image
-                        src='gopay.svg'
+                        src={gopay}
                         alt='gopay'
                         className=''
                         width={40}
@@ -161,7 +169,7 @@ const Payment = () => {
                     </button>
                     <button className='btn btn-outline'>
                       <Image
-                        src='paypal.svg'
+                        src={paypal}
                         alt='paypal'
                         className=''
                         width={20}
@@ -170,7 +178,7 @@ const Payment = () => {
                     </button>
                     <button className='btn btn-outline'>
                       <Image
-                        src='dana.svg'
+                        src={dana}
                         alt='dana'
                         className=''
                         width={40}
@@ -179,7 +187,7 @@ const Payment = () => {
                     </button>
                     <button className='btn btn-outline'>
                       <Image
-                        src='bca.svg'
+                        src={bca}
                         alt='bca'
                         className=''
                         width={40}
@@ -188,7 +196,7 @@ const Payment = () => {
                     </button>
                     <button className='btn btn-outline'>
                       <Image
-                        src='bri.svg'
+                        src={bri}
                         alt='bri'
                         className=''
                         width={40}
@@ -197,7 +205,7 @@ const Payment = () => {
                     </button>
                     <button className='btn btn-outline'>
                       <Image
-                        src='ovo.svg'
+                        src={ovo}
                         alt='ovo'
                         className=''
                         width={40}
@@ -260,7 +268,7 @@ const Payment = () => {
                     <div className='bg-[#F4B7404D] mt-4 rounded-md h-[8vh] p-2'>
                       <div className='flex flex-row'>
                         <Image
-                          src='warning.svg'
+                          src={warning}
                           alt='warning'
                           className=''
                           width={30}
