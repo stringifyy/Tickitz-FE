@@ -9,8 +9,6 @@ import tickitz from "@/assets/images/svg/tickitz-logo.svg"
 import Cookies from 'js-cookie';
 
 export default function Navbar() {
-
-
     const router = useRouter()
     const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {

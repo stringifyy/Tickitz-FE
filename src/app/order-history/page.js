@@ -1,5 +1,3 @@
-
-
 'use client'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -10,7 +8,7 @@ import profile from '@/assets/man.png'
 import cineone from '@/assets/images/svg/cineone21.svg'
 import ebuid from '@/assets/images/svg/ebuid.svg'
 import AccountInfo from '../account-information/page'
-import { redirect } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import Navbar from '@/component/Navbar'
@@ -29,7 +27,8 @@ export default function OrderHistory() {
   const [imageCurrent, setsetImageCurrent] = useState()
   const [dataUser, setDataUser] = useState([])
   const [dataHistory, setDataHistory] = useState([])
-  console.log("data history", dataHistory);
+  const router = useRouter()
+  // console.log("data history", dataHistory);
   // console.log("img",imageCurrent);
 
   useEffect(() => {
@@ -45,7 +44,7 @@ export default function OrderHistory() {
 
   useEffect(() => {
     axios
-      .get(`${url}/api/v1/history/${userId}`)
+      .get(`${url}/api/v1/auth/users/${userId}`)
       .then(res => {
         setDataHistory(res.data.data.history)
       })
@@ -129,14 +128,14 @@ export default function OrderHistory() {
                         <div className="card-actions justify-between border-t-2 border-solid border-gray-300 py-4">
                           <button className="btn btn-success">Buy Now</button>
                           <div className="dropdown dropdown-end">
-                            <label tabIndex={0} className="btn">
+                            <label tabIndex={0} className="btn" onClick={() => { router.push(`/order-history/${item.id}`) }}>
                               Show Detail
-                              <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg>
+                              {/* <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg> */}
                             </label>
-                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            {/* <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                               <li><a>Item 1</a></li>
                               <li><a>Item 2</a></li>
-                            </ul>
+                            </ul> */}
                           </div>
                         </div>
                         {/* end */}
