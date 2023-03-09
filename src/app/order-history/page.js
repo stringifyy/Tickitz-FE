@@ -23,7 +23,8 @@ export default function OrderHistory() {
   }
 
 
-  const url = process.env.NEXT_PUBLIC_API_URL
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
   const [imageCurrent, setsetImageCurrent] = useState()
   const [dataUser, setDataUser] = useState([])
   const [dataHistory, setDataHistory] = useState([])
@@ -33,10 +34,10 @@ export default function OrderHistory() {
 
   useEffect(() => {
     axios
-      .get(`${url}/api/v1/auth/users/${userId}`)
+      .get(`${urlApi}/api/v1/auth/users/${userId}`)
       .then(res => {
         setDataUser(res.data.data)
-        setsetImageCurrent(`${url}/uploads/images/${res.data.data.profile_image}`)
+        setsetImageCurrent(`${urlImg}/${res.data.data.profile_image}`)
       })
       .catch(err => console.log(err))
   }, [])
@@ -44,7 +45,7 @@ export default function OrderHistory() {
 
   useEffect(() => {
     axios
-      .get(`${url}/api/v1/auth/users/${userId}`)
+      .get(`${urlApi}/api/v1/auth/users/${userId}`)
       .then(res => {
         setDataHistory(res.data.data.history)
       })

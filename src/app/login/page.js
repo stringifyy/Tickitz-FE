@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie'
 
 function Login() {
+    const urlApi = process.env.NEXT_PUBLIC_API_URL
+
     // Private route
     const userId = Cookies.get('userId')
     if (userId) {
@@ -21,7 +23,7 @@ function Login() {
     const handleLogin = (event) => {
         event.preventDefault()
         axios(
-            { url: "http://localhost:5000/api/v1/auth/login", method: "POST", data: formLogin }
+            { url: `${urlApi}/api/v1/auth/login`, method: "POST", data: formLogin }
         )
             .then((res) => {
                 // console.log("dta login", res.data.data);

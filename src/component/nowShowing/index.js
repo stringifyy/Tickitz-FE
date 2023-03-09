@@ -6,15 +6,14 @@ import Link from 'next/link';
 import axios from 'axios';
 
 export default function NowComming() {
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
   // declaration
   const [dataMovies, setDataMovies] = useState([])
   // const [keyword, setKeyword] = useState('');
 
-
-
   const loadUserData = async () => {
     return axios
-      .get(`http://localhost:5000/api/v1/movies`)
+      .get(`${urlApi}/api/v1/movies`)
       .then(res => console.log(res.data.data))
       .catch((err) => console.log(err))
   }

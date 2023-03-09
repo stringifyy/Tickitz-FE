@@ -6,11 +6,17 @@ const nextConfig = {
   images: {
     // formats: ['image/avif', 'image/webp'],
     remotePatterns: [
+      // {
+      //   protocol: 'http',
+      //   hostname: 'localhost',
+      //   port: '5000',
+      //   pathname: '/uploads/images/**',
+      // },
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '5000',
-        pathname: '/uploads/images/**',
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/deagxiwjt/**',
       },
     ],
   },

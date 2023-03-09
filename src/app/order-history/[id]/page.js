@@ -16,7 +16,7 @@ function TicketResult() {
         redirect('/login')
     }
 
-    const url = process.env.NEXT_PUBLIC_API_URL
+    const urlApi = process.env.NEXT_PUBLIC_API_URL
     const path = usePathname();
     const idUserHistory = path.split("/")[2];
     const [historyDetail, setHistoryDetail] = useState('')
@@ -28,7 +28,7 @@ function TicketResult() {
 
     useEffect(() => {
         axios
-            .get(`${url}/api/v1/history/${idUserHistory}`)
+            .get(`${urlApi}/api/v1/history/${idUserHistory}`)
             .then(res => {
                 setHistoryDetail(res.data.data)
             })

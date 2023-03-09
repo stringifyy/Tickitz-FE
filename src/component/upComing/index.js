@@ -6,12 +6,15 @@ import Link from 'next/link'
 import axios from 'axios'
 
 export default function UpComming() {
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
+
   const [dataMovies, setDataMovies] = useState([])
   useEffect(() => {
     loadUserData()
   }, [])
   const loadUserData = async () => {
-    return axios.get('http://localhost:5000/api/v1/movies?sortBy=asc')
+    return axios.get(`${urlApi}/api/v1/movies?sortBy=asc`)
       .then(res => setDataMovies(res.data.data))
       .catch((err) => console.log(err))
   }
@@ -26,7 +29,7 @@ export default function UpComming() {
         <div className="flex mt-10">
           <div className="carousel rounded-box w-screen">
             {dataMovies.map((item) => {
-              const img = `http://localhost:5000/uploads/images/${item.movies_image}`
+              const img = `${urlImg}/${item.movies_image}`
               return (
                 <>
                   <div className="mr-10 carousel-item mb-10 rounded-none">

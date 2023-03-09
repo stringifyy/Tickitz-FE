@@ -22,7 +22,9 @@ const Admin = () => {
     redirect('/login')
   }
   const router = useRouter()
-  const url = 'http://localhost:5000/api/v1/movies';
+  // const url = 'http://localhost:5000/api/v1/movies';
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
 
   const [imagePreview, setImagePreview] = useState('')
 
@@ -52,7 +54,7 @@ const Admin = () => {
     body.append('date', date);
 
     try {
-      await axios.post(`${url}`, body, {
+      await axios.post(`${urlApi}/api/v1/movies`, body, {
         method: 'POST',
         headers: {
           'Content-type': 'multi/form-data',

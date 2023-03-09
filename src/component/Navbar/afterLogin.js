@@ -13,7 +13,8 @@ import Cookies from 'js-cookie';
 function AfterLogin() {
   // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
   const userId = Cookies.get('userId')
-  const url = process.env.NEXT_PUBLIC_API_URL
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
   const router = useRouter()
   const [image, setImage] = useState('')
   const [imageStatus, setImageStatus] = useState('')
@@ -35,9 +36,9 @@ function AfterLogin() {
 
   useEffect(() => {
     axios
-      .get(`${url}/api/v1/auth/users/${userId}`)
+      .get(`${urlApi}/api/v1/auth/users/${userId}`)
       .then(res => {
-        setImage(`${url}/uploads/images/${res.data.data.profile_image}`)
+        setImage(`${urlImg}/${res.data.data.profile_image}`)
         setImageStatus(res.data.data.profile_image)
       })
       .catch(err => console.log(err))

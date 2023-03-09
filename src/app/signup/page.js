@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie'
 
 function SignUp() {
+    const urlApi = process.env.NEXT_PUBLIC_API_URL
+
     // Private route
     const userId = Cookies.get('userId')
     if (userId) {
@@ -22,12 +24,10 @@ function SignUp() {
     console.log("isdata", isData);
     const router = useRouter()
 
-
-
     const handleSigup = (event) => {
         event.preventDefault()
         axios({
-            url: "http://localhost:5000/api/v1/auth/register",
+            url: `${urlApi}/api/v1/auth/register`,
             method: "POST",
             data: isData,
         })

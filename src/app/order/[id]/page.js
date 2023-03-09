@@ -16,7 +16,8 @@ function OrderPage() {
     // if (!userId || userId == null || userId == undefined) {
     //     redirect('/login')
     // }
-    const url = process.env.NEXT_PUBLIC_API_URL
+    const urlApi = process.env.NEXT_PUBLIC_API_URL
+    const urlImg = process.env.NEXT_PUBLIC_API_IMG
     const path = usePathname();
     const id = path.split("/")[2];
     const router = useRouter()
@@ -43,7 +44,7 @@ function OrderPage() {
 
     const loadCinemaData = async () => {
         return await axios
-            .get(`http://localhost:5000/api/v1/cinema/${id}`)
+            .get(`${urlApi}/api/v1/cinema/${id}`)
             .then((res) => {
                 setCinemaData(res.data.data);
                 setCinemaPrice(res.data.data.cinema_price)
@@ -139,7 +140,7 @@ function OrderPage() {
     const [status, setStatus] = useState({ status: 'true' })
     const handleSeats = () => {
         for (let i = 0; i < dataId.length; i++) {
-            axios.patch(`${url}/api/v1/seats_left/${dataId[i]}`, status, {
+            axios.patch(`${urlApi}/api/v1/seats_left/${dataId[i]}`, status, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded',
@@ -154,7 +155,7 @@ function OrderPage() {
                 })
         }
         for (let i = 0; i < dataIdRight.length; i++) {
-            axios.patch(`${url}/api/v1/seats_right/${dataIdRight[i]}`, status, {
+            axios.patch(`${urlApi}/api/v1/seats_right/${dataIdRight[i]}`, status, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded',
@@ -176,12 +177,12 @@ function OrderPage() {
     }, [dataIdRight, dataId])
 
     const loadSeatsLeft = async () => {
-        return await axios.get(`http://localhost:5000/api/v1/seats_left`)
+        return await axios.get(`${urlApi}/api/v1/seats_left`)
             .then(res => setDataLeft(res.data.data))
             .catch((err) => console.log(err))
     }
     const loadSeatsRight = async () => {
-        return await axios.get(`http://localhost:5000/api/v1/seats_right`)
+        return await axios.get(`${urlApi}/api/v1/seats_right`)
             .then(res => setDataRight(res.data.data))
             .catch((err) => console.log(err))
     }

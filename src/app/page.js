@@ -14,6 +14,9 @@ import { useEffect, useState } from "react";
 
 
 export default function Home() {
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
+
   const [dataMovies, setDataMovies] = useState([])
   const [filter, setFilter] = useState("")
   // const [keyword, setKeyword] = useState('');
@@ -27,10 +30,10 @@ export default function Home() {
 
   const url = (search) => {
     if (search != "") {
-      return `http://localhost:5000/api/v1/movies?search=${search.toLocaleLowerCase()}`
+      return `${urlApi}/api/v1/movies?search=${search.toLocaleLowerCase()}`
     }
     else {
-      return `http://localhost:5000/api/v1/movies/?movies_release=${filter.toLocaleLowerCase()}`
+      return `${urlApi}/api/v1/movies/?movies_release=${filter.toLocaleLowerCase()}`
     }
 
   }
@@ -149,7 +152,7 @@ export default function Home() {
           <div className="flex mt-10">
             <div className="carousel rounded-box w-screen pb-38">
               {dataMovies.map((item) => {
-                const img = `http://localhost:5000/uploads/images/${item.movies_image}`
+                const img = `${urlImg}/${item.movies_image}`
                 return (
                   <>
                     <Link href={`/movie-details/${item.id}`} className="mr-10 carousel-item mb-10 rounded-none">

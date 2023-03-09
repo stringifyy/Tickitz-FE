@@ -22,7 +22,8 @@ export default function AccountInfo() {
   const [dataUser, setDataUser] = useState([]);
 
   // GET USER DATA WITH AXIOS
-  const url = process.env.NEXT_PUBLIC_API_URL
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
   // const userLogin = Cookies.get('userLogin')
 
   // const [userData, setUserData] = useState([])
@@ -37,10 +38,10 @@ export default function AccountInfo() {
 
   useEffect(() => {
     axios
-      .get(`${url}/api/v1/auth/users/${userId}`)
+      .get(`${urlApi}/api/v1/auth/users/${userId}`)
       .then(res => {
         setDataUser(res.data.data)
-        setImageCurrent(`${url}/uploads/images/${res.data.data.profile_image}`)
+        setImageCurrent(`${urlImg}/${res.data.data.profile_image}`)
         setImageStatus(res.data.data.profile_image)
       })
       .catch(err => console.log(err))
@@ -60,7 +61,7 @@ export default function AccountInfo() {
     body.append('phone', phone);
     body.append('profile_image', image);
 
-    axios.patch(`${url}/api/v1/auth/users/${userId}`, body, {
+    axios.patch(`${urlApi}/api/v1/auth/users/${userId}`, body, {
       method: 'PATCH',
       headers: {
         'Content-type': 'multipart/form-data',
