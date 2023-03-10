@@ -1,6 +1,3 @@
-
-
-
 "use client"
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -8,7 +5,6 @@ import axios from 'axios';
 import profile from '@/assets/man.png'
 import Image from 'next/image';
 import Cookies from 'js-cookie';
-
 
 function AfterLogin() {
   // const userId = JSON.parse(localStorage.getItem("@userLogin"))?.user.id;
@@ -54,6 +50,7 @@ function AfterLogin() {
       )
     }
   }
+
   return (
     <div>
       <li>
