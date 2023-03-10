@@ -23,8 +23,10 @@ export default function OrderHistory() {
   }
 
 
-  const url = process.env.NEXT_PUBLIC_API_URL
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
   const [imageCurrent, setsetImageCurrent] = useState()
+  const [imageStatus, setImageStatus] = useState('')
   const [dataUser, setDataUser] = useState([])
   const [dataHistory, setDataHistory] = useState([])
   const router = useRouter()
@@ -33,10 +35,11 @@ export default function OrderHistory() {
 
   useEffect(() => {
     axios
-      .get(`${url}/api/v1/auth/users/${userId}`)
+      .get(`${urlApi}/api/v1/auth/users/${userId}`)
       .then(res => {
         setDataUser(res.data.data)
-        setsetImageCurrent(`${url}/uploads/images/${res.data.data.profile_image}`)
+        setsetImageCurrent(`${urlImg}/${res.data.data.profile_image}`)
+        setImageStatus(res.data.data.profile_image)
       })
       .catch(err => console.log(err))
   }, [])
@@ -44,13 +47,28 @@ export default function OrderHistory() {
 
   useEffect(() => {
     axios
-      .get(`${url}/api/v1/auth/users/${userId}`)
+      .get(`${urlApi}/api/v1/auth/users-detail/${userId}`)
       .then(res => {
         setDataHistory(res.data.data.history)
       })
       .catch(err => console.log(err))
   }, [])
 
+  const isImg = () => {
+    if (imageStatus === null || imageStatus === undefined || imageStatus === 'null') {
+      return (
+        <>
+          {<Image src={profile} width={200} height={200} className='w-[200px] h-[200px]' alt='profile' />}
+        </>
+      )
+    } else {
+      return (
+        <>
+          {<Image src={imageCurrent} width={200} height={200} className='w-[200px] h-[200px]' alt='profile' />}
+        </>
+      )
+    }
+  }
 
   return (
     <>
@@ -65,10 +83,7 @@ export default function OrderHistory() {
                   <h2 className="">Info</h2>
                 </div>
                 <div className='flex flex-col lg:flex-col justify-center items-center'>
-                  <label htmlFor="my-modal-4">
-                    <Image src={imageCurrent ? imageCurrent : profile}
-                      alt="profile" width={200} height={200} className='w-[200px] h-[200px]' />
-                  </label>
+                  {isImg()}
                   <h2 className='font-bold'>{dataUser?.name}</h2>
                   <p className='text-gray-500'>{dataUser?.phone}</p>
                 </div>
@@ -106,7 +121,7 @@ export default function OrderHistory() {
               </div>
 
               {/* history card */}
-              {dataHistory.map((item) => {
+              {dataHistory?.map((item) => {
                 return (
                   <>
                     <div className="card w-full bg-white border-2 rborder-solid border-gray-200 rounded-xl mt-5">

@@ -29,7 +29,7 @@ const Payment = () => {
   }
 
   const router = useRouter()
-  const url = process.env.NEXT_PUBLIC_API_URL
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
   // Get data from Cookies
   const seats = Cookies.get('seats')
   const movies_date = Cookies.get('movies_date')
@@ -41,7 +41,7 @@ const Payment = () => {
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    await axios.post(`${url}/api/v1/history`, {
+    await axios.post(`${urlApi}/api/v1/history`, {
       id_user: userId,
       movies_name: movies_name,
       movies_date: movies_date,

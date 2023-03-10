@@ -13,6 +13,9 @@ import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 
 const MovieDetails = () => {
+  const urlApi = process.env.NEXT_PUBLIC_API_URL
+  const urlImg = process.env.NEXT_PUBLIC_API_IMG
+
   const router = useRouter()
   const path = usePathname();
   const id = path.split("/")[2];
@@ -28,7 +31,7 @@ const MovieDetails = () => {
 
   const loadMoviesData = async () => {
     return await axios
-      .get(`http://localhost:5000/api/v1/movies/${id}`)
+      .get(`${urlApi}/api/v1/movies/${id}`)
       .then((res) => {
         setMoviesData(res.data.data);
         setCinemaData(res.data.data.cinema);
@@ -37,7 +40,7 @@ const MovieDetails = () => {
       .catch((err) => console.log(err));
   };
   // console.log(moviesData);
-  const img = `http://localhost:5000/uploads/images/${moviesData.movies_image}`;
+  const img = `${urlImg}/${moviesData.movies_image}`;
 
   return (
     <>
@@ -204,7 +207,7 @@ const MovieDetails = () => {
             <div class="flex flex-col mt-4">
               <div class="flex flex-row flex-wrap justify-center">
                 {cinemaData.map((item) => {
-                  const imgCinema = `http://localhost:5000/uploads/images/${item.cinema_image}`;
+                  const imgCinema = `${urlImg}/${item.cinema_image}`;
                   // console.log(item);
                   return (
                     <>
